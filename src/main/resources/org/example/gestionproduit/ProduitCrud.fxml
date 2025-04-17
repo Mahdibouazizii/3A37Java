@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="org.example.gestionproduit.controller.ProduitCrudController">
+    <center>
+        <!-- FlowPane to display products as cards -->
+        <FlowPane fx:id="flowPane" hgap="10" style="-fx-padding: 10; -fx-background-color: #f0f0f0;" vgap="10" />
+    </center>
+    <bottom>
+        <HBox spacing="10">
+            <padding>
+                <Insets bottom="10" left="10" right="10" top="10" />
+            </padding>
+            <children>
+                <!-- Add Product Button -->
+                <Button fx:id="btnAdd" onAction="#handleAdd" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-min-width: 100px;" text="Add Product" />
+                <!-- Edit Product Button -->
+                <Button fx:id="btnEdit" onAction="#handleEdit" style="-fx-background-color: #FF9800; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-min-width: 100px;" text="Edit" />
+            </children>
+        </HBox>
+    </bottom>
+</BorderPane>

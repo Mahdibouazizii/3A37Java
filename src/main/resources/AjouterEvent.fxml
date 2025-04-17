@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="648.0" prefWidth="568.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="green.green.Controller.EventController">
+   <children>
+      <Text layoutX="99.0" layoutY="396.0" text="Nom:">
+         <font><Font name="System Bold" size="15.0" /></font>
+      </Text>
+      <Text layoutX="100.0" layoutY="317.0" text="Description:">
+         <font><Font name="System Bold" size="15.0" /></font>
+      </Text>
+      <Text layoutX="98.0" layoutY="554.0" text="Nombre de place :">
+         <font><Font name="System Bold" size="15.0" /></font>
+      </Text>
+      <Text layoutX="98.0" layoutY="232.0" text="Date de debut :">
+         <font><Font name="System Bold" size="15.0" /></font>
+      </Text>
+      <Text layoutX="98.0" layoutY="478.0" text="Date de fin:">
+         <font><Font name="System Bold" size="15.0" /></font>
+      </Text>
+
+      <DatePicker fx:id="startDatePicker" layoutX="251.0" layoutY="214.0" />
+      <DatePicker fx:id="endDatePicker" layoutX="251.0" layoutY="460.0" />
+
+      <ImageView fx:id="imageView" fitHeight="161.0" fitWidth="247.0" layoutX="138.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true" />
+      <Button fx:id="chooseImageButton" layoutX="392.0" layoutY="93.0" onAction="#onChooseImageClicked" text="Choisir Image" />
+
+
+      <TextField fx:id="nameField" layoutX="252.0" layoutY="381.0" promptText="Nom..." />
+      <TextField fx:id="descriptionField" layoutX="255.0" layoutY="302.0" promptText="Description..." />
+      <TextField fx:id="maxPlaceField" layoutX="251.0" layoutY="539.0" promptText="Nombre max..." />
+
+      <Button fx:id="createButton" layoutX="464.0" layoutY="580.0" mnemonicParsing="false" onAction="#onCreateButtonClicked" text="Create" />
+   </children>
+</AnchorPane>

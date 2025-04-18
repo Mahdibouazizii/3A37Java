@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="620" prefWidth="520" style="-fx-background-color: #f7f7f7;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.gestionproduit.controller.UpdateEventController">
+    <children>
+      <MenuBar layoutX="-542.0" prefHeight="38.0" prefWidth="1083.0" style="-fx-background-color: linear-gradient(to right, #2980b9, #3498db);">
+         <menus>
+            <Menu style="-fx-font-size: 16px; -fx-text-fill: white; -fx-font-weight: bold;" text="Paramètres">
+               <items>
+                  <MenuItem style="-fx-font-size: 14px; -fx-text-fill: #2c3e50;" text="Modifier le Profil" />
+                  <MenuItem style="-fx-font-size: 14px; -fx-text-fill: #2c3e50;" text="Changer le Mot de Passe" />
+               </items>
+            </Menu>
+         </menus>
+      </MenuBar>
+
+        <!-- Titre -->
+        <Label layoutX="18.0" layoutY="8.0" text="Modifier l'Événement">
+            <font>
+                <Font name="Arial" size="24" />
+            </font>
+            <style>-fx-font-weight: bold; -fx-text-fill: #2c3e50;</style>
+        </Label>
+
+        <!-- Nom de l'événement -->
+        <Label layoutX="20.0" layoutY="121.0" text="Nom de l'événement :">
+            <style>-fx-font-size: 14px; -fx-text-fill: #34495e;</style>
+        </Label>
+        <TextField fx:id="nomTextField" layoutX="180.0" layoutY="116.0" prefWidth="300" style="-fx-background-color: #ffffff; -fx-border-radius: 5px; -fx-padding: 10px; -fx-font-size: 14px;" />
+
+        <!-- Description -->
+        <Label layoutX="20.0" layoutY="161.0" text="Description :">
+            <style>-fx-font-size: 14px; -fx-text-fill: #34495e;</style>
+        </Label>
+        <TextArea fx:id="descriptionTextArea" layoutX="180.0" layoutY="156.0" prefHeight="80" prefWidth="300" style="-fx-background-color: #ffffff; -fx-border-radius: 5px; -fx-padding: 10px; -fx-font-size: 14px;" wrapText="true" />
+
+        <!-- Nombre de places -->
+        <Label layoutX="20.0" layoutY="251.0" text="Nombre de places :">
+            <style>-fx-font-size: 14px; -fx-text-fill: #34495e;</style>
+        </Label>
+        <TextField fx:id="placesField" layoutX="180.0" layoutY="246.0" prefWidth="150" style="-fx-background-color: #ffffff; -fx-border-radius: 5px; -fx-padding: 10px; -fx-font-size: 14px;" />
+
+        <!-- Date de début -->
+        <Label layoutX="20.0" layoutY="291.0" text="Date de début :">
+            <style>-fx-font-size: 14px; -fx-text-fill: #34495e;</style>
+        </Label>
+        <DatePicker fx:id="dateDebutPicker" layoutX="180.0" layoutY="286.0" prefWidth="150" style="-fx-background-color: #ffffff; -fx-border-radius: 5px;" />
+
+        <!-- Date de fin -->
+        <Label layoutX="20.0" layoutY="331.0" text="Date de fin :">
+            <style>-fx-font-size: 14px; -fx-text-fill: #34495e;</style>
+        </Label>
+        <DatePicker fx:id="dateFinPicker" layoutX="180.0" layoutY="326.0" prefWidth="150" style="-fx-background-color: #ffffff; -fx-border-radius: 5px;" />
+
+        <!-- Image de l'événement -->
+        <Label layoutX="15.0" layoutY="368.0" text="Image de l'événement :">
+            <style>-fx-font-size: 14px; -fx-text-fill: #34495e;</style>
+        </Label>
+        <ImageView fx:id="eventImageView" fitHeight="138.0" fitWidth="150.0" layoutX="100.0" layoutY="398.0" style="-fx-background-radius: 5px; -fx-border-color: #bdc3c7; -fx-border-width: 1px;" />
+
+        <!-- Bouton Choisir Image -->
+        <Button fx:id="chooseImageButton" layoutX="285.0" layoutY="398.0" onAction="#onChooseImage" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 5px; -fx-padding: 10px;" text="Choisir une image" />
+
+        <!-- Boutons Enregistrer / Annuler -->
+        <Button fx:id="saveButton" layoutX="166.0" layoutY="562.0" onAction="#onSaveClicked" style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-size: 16px; -fx-background-radius: 5px; -fx-padding: 12px 20px;" text="Enregistrer" />
+        <Button fx:id="cancelButton" layoutX="286.0" layoutY="562.0" onAction="#onCancelClicked" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-size: 16px; -fx-background-radius: 5px; -fx-padding: 12px 20px;" text="Annuler" />
+
+    </children>
+</AnchorPane>

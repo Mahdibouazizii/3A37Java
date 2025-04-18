@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="720.0" prefWidth="940.0" style="-fx-background-color: #ecf0f1;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.gestionproduit.controller.EventController">
+
+    <children>
+
+        <!-- Barre de navigation en haut avec un fond dégradé et icônes de menu -->
+        <MenuBar prefWidth="940.0" style="-fx-background-color: linear-gradient(to right, #2980b9, #3498db);">
+            <menus>
+                <Menu style="-fx-font-size: 16px; -fx-text-fill: white; -fx-font-weight: bold;" text="Événements">
+                    <MenuItem text="Liste des Événements" onAction="#goToAfficherEvent" />
+                </Menu>
+                <Menu style="-fx-font-size: 16px; -fx-text-fill: white; -fx-font-weight: bold;" text="Reclamation">
+                    <MenuItem text="Add Reclamation" onAction="#handleAddReclamation" />
+                    <MenuItem text="View Reclamations" onAction="#handleViewReclamations" />
+                </Menu>
+                <Menu style="-fx-font-size: 16px; -fx-text-fill: white; -fx-font-weight: bold;" text="Produit">
+                    <MenuItem text="Liste des Produits" onAction="#handleViewProduit" />
+                </Menu>                <Menu style="-fx-font-size: 16px; -fx-text-fill: white; -fx-font-weight: bold;" text="Paramètres">
+                    <MenuItem style="-fx-font-size: 14px; -fx-text-fill: #2c3e50;" text="Déconnexion " />
+                    <MenuItem style="-fx-font-size: 14px; -fx-text-fill: #2c3e50;" text="Changer le Mot de Passe" />
+
+                </Menu>
+            </menus>
+        </MenuBar>
+
+        <!-- Titre avec une ombre portée et nouvelle taille de police -->
+        <Text layoutX="25.0" layoutY="70.0" style="-fx-font-weight: bold; -fx-fill: #2c3e50;" text="📅 Liste des Événements">
+            <font>
+                <Font size="28.0" />
+            </font>
+            <effect>
+                <DropShadow blurType="GAUSSIAN" color="rgba(0, 0, 0, 0.3)" offsetX="3.0" offsetY="3.0" />
+            </effect>
+        </Text>
+
+        <!-- Conteneur Scrollable avec fond ombragé et taille ajustée -->
+        <ScrollPane fx:id="scrollPane" layoutX="30.0" layoutY="80.0" prefHeight="560.0" prefWidth="880.0" style="-fx-background-color: transparent; -fx-border-color: #bdc3c7; -fx-border-width: 1; -fx-background-radius: 10; -fx-padding: 10;">
+            <content>
+                <VBox fx:id="eventContainer" prefHeight="550.0" prefWidth="860.0" spacing="25.0" style="-fx-background-color: transparent;">
+                    <padding>
+                        <Insets bottom="20" left="15" right="15" top="20" />
+                    </padding>
+                </VBox>
+            </content>
+        </ScrollPane>
+
+        <!-- Bouton Rafraîchir avec effet au survol et taille modifiée -->
+        <Button fx:id="refreshButton" onAction="#onRefreshClicked" style="-fx-background-color: #2980b9; -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold; -fx-background-radius: 10; -fx-padding: 14 30 14 30; -fx-effect: dropshadow(gaussian, #2980b9, 12, 0.3, 0, 0);" text="🔁 Rafraîchir">
+            <effect>
+                <DropShadow color="#2980b9" offsetX="0" offsetY="4" radius="6" />
+            </effect>
+            <AnchorPane.leftAnchor>730.0</AnchorPane.leftAnchor>
+            <AnchorPane.bottomAnchor>20.0</AnchorPane.bottomAnchor>
+        </Button>
+
+        <!-- Bouton Mes Participations avec effet au survol et taille modifiée -->
+        <Button fx:id="mesParticipationsButton" onAction="#onMesParticipationsClicked" style="-fx-background-color: #8e44ad; -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold; -fx-background-radius: 10; -fx-padding: 14 30 14 30; -fx-effect: dropshadow(gaussian, #8e44ad, 12, 0.3, 0, 0);" text="👤 Mes Participations">
+            <effect>
+                <DropShadow color="#8e44ad" offsetX="0" offsetY="4" radius="6" />
+            </effect>
+            <AnchorPane.leftAnchor>390.0</AnchorPane.leftAnchor>
+            <AnchorPane.bottomAnchor>20.0</AnchorPane.bottomAnchor>
+        </Button>
+
+    </children>
+</AnchorPane>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #f7f7f7; -fx-font-family: 'Segoe UI', sans-serif;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="org.example.gestionproduit.controller.UserController">
+
+    <!-- Sidebar -->
+    <VBox layoutX="0.0" layoutY="0.0" prefHeight="600.0" prefWidth="250.0" spacing="20" style="-fx-background-color: #34495e;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <Label style="-fx-text-fill: white; -fx-font-size: 24px; -fx-font-weight: bold; -fx-padding: 20 0 0 20;" text="Menu" />
+
+        <!-- Buttons with Icons -->
+        <Button maxWidth="250.0" style="-fx-background-color: #2c3e50; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10 20;" styleClass="side-btn">
+            <graphic>
+                <HBox spacing="15">
+                    <ImageView fx:id="homeIcon" fitHeight="20" fitWidth="20" pickOnBounds="true" preserveRatio="true" />
+                    <Label style="-fx-text-fill: white; -fx-font-size: 16px;" text="Accueil" />
+                </HBox>
+            </graphic>
+        </Button>
+        <Button fx:id="produitsButton" maxWidth="250.0" onAction="#goToAfficherEventBack" style="-fx-background-color: #2c3e50; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10 20; -fx-border-radius: 5; -fx-effect: innershadow(gaussian, black, 0.6, 0.0, 5.0, 0.0);" styleClass="side-btn">
+            <graphic>
+                <HBox spacing="15">
+                    <ImageView fx:id="productIcon" fitHeight="20" fitWidth="20" pickOnBounds="true" preserveRatio="true" />
+                    <Label style="-fx-text-fill: white; -fx-font-size: 16px;" text="Event" />
+                </HBox>
+            </graphic>
+        </Button>
+        <Button fx:id="ProduitButton" maxWidth="250.0" onAction="#goToProduitCrud" style="-fx-background-color: #2c3e50; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10 20; -fx-border-radius: 5; -fx-effect: innershadow(gaussian, black, 0.6, 0.0, 5.0, 0.0);" styleClass="side-btn">
+            <graphic>
+                <HBox spacing="15">
+                    <ImageView fx:id="productIcon" fitHeight="20" fitWidth="20" pickOnBounds="true" preserveRatio="true" />
+                    <Label style="-fx-text-fill: white; -fx-font-size: 16px;" text="Produits" />
+                </HBox>
+            </graphic>
+        </Button>
+        <Button fx:id="UserButton" maxWidth="250.0" onAction="#goToUserView" style="-fx-background-color: #2c3e50; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10 20; -fx-border-radius: 5; -fx-effect: innershadow(gaussian, black, 0.6, 0.0, 5.0, 0.0);" styleClass="side-btn">
+            <graphic>
+                <HBox spacing="15">
+                    <ImageView fx:id="productIcon" fitHeight="20" fitWidth="20" pickOnBounds="true" preserveRatio="true" />
+                    <Label style="-fx-text-fill: white; -fx-font-size: 16px;" text="User" />
+                </HBox>
+            </graphic>
+        </Button>
+
+    </VBox>
+
+    <!-- Header -->
+    <HBox layoutX="250.0" layoutY="0.0" prefHeight="60.0" prefWidth="650.0" style="-fx-background-color: #2980b9;" AnchorPane.leftAnchor="250.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <Label style="-fx-text-fill: white; -fx-font-size: 24px; -fx-padding: 15 0 0 20;" text="Dashboard" />
+    </HBox>
+
+    <!-- Main Content -->
+    <Pane layoutX="250.0" layoutY="60.0" prefHeight="540.0" prefWidth="650.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="250.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0">
+        <Text layoutX="20.0" layoutY="66.0" text="User Management">
+            <font>
+                <Font name="Verdana" size="20" />
+            </font>
+        </Text>
+
+        <!-- User ListView -->
+        <ListView fx:id="userListView" layoutX="20.0" layoutY="121.0" onMouseClicked="#populateFields" prefHeight="200" prefWidth="300" />
+
+        <!-- Input Fields -->
+        <TextField fx:id="firstNameField" layoutX="350.0" layoutY="121.0" promptText="First Name" />
+        <TextField fx:id="lastNameField" layoutX="350.0" layoutY="161.0" promptText="Last Name" />
+        <TextField fx:id="emailField" layoutX="350.0" layoutY="201.0" promptText="Email" />
+        <TextField fx:id="passwordField" layoutX="350.0" layoutY="241.0" promptText="Password" />
+        <TextField fx:id="addressField" layoutX="350.0" layoutY="281.0" promptText="Address" />
+        <TextField fx:id="profilePictureField" layoutX="350.0" layoutY="321.0" promptText="Profile Picture" />
+        <TextField fx:id="roleField" layoutX="350.0" layoutY="361.0" promptText="Role (admin/user)" />
+        <TextField fx:id="isBannedField" layoutX="350.0" layoutY="401.0" promptText="Is Banned (true/false)" />
+
+        <!-- Buttons -->
+        <Button fx:id="addUserButton" layoutX="350.0" layoutY="451.0" onAction="#addUser" text="Add User" />
+        <Button fx:id="updateUserButton" layoutX="450.0" layoutY="451.0" onAction="#updateUser" text="Update User" />
+        <Button fx:id="deleteUserButton" layoutX="550.0" layoutY="451.0" onAction="#deleteUser" text="Delete User" />
+
+        <!-- Status Label -->
+        <Text fx:id="statusLabel" fill="red" layoutX="350" layoutY="420" />
+    </Pane>
+</AnchorPane>

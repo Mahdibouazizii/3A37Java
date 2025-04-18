@@ -1,0 +1,124 @@
+/* style.css */
+.product-card {
+    -fx-background-color: #f9f9f9;
+    -fx-border-color: #cccccc;
+    -fx-border-width: 1;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 2);
+
+    /* Fix the card width & height for symmetry */
+    -fx-pref-width: 200;  /* or whatever width you prefer */
+    -fx-pref-height: 320; /* or whatever height you prefer */
+    -fx-padding: 10;
+    -fx-spacing: 5;       /* vertical spacing between elements */
+}
+
+/* Image style: you can limit the size directly in CSS if you prefer. */
+.product-card .product-image {
+    -fx-fit-width: 150;
+    -fx-fit-height: 150;
+    -fx-preserve-ratio: true;
+    -fx-smooth: true;
+}
+
+/* Purchase button style */
+.button-purchase {
+    -fx-background-color: #27ae60;
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5;
+}
+
+/* Feedback button style */
+.button-feedback {
+    -fx-background-color: #3498db;
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5;
+}
+
+/* Hover effects (optional) */
+.button-purchase:hover {
+    -fx-background-color: #2ecc71;
+}
+.button-feedback:hover {
+    -fx-background-color: #2980b9;
+}
+
+
+/* Styling for both Login and Register Pages */
+.input-field {
+    -fx-pref-width: 300px;
+    -fx-padding: 10;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-border-color: #ccc;
+    -fx-border-width: 1;
+    -fx-font-size: 14px;
+    -fx-focus-color: #3498db;  /* Highlight when focused */
+}
+
+.btn-login, .btn-register {
+    -fx-pref-width: 300px;
+    -fx-padding: 10;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-font-size: 16px;
+    -fx-text-fill: white;
+}
+
+.btn-login {
+    -fx-background-color: #3498db;
+}
+
+.btn-login:hover {
+    -fx-background-color: #2980b9;
+}
+
+.btn-register {
+    -fx-background-color: #2ecc71;
+}
+
+.btn-register:hover {
+    -fx-background-color: #27ae60;
+}
+
+HBox {
+    -fx-spacing: 5;
+    -fx-alignment: CENTER;
+}
+
+AnchorPane {
+    -fx-background-color: #f4f6f9;
+}
+
+/* Additional Styling for Button Hover Effects */
+.btn-login:hover, .btn-register:hover {
+    -fx-cursor: hand; /* Change cursor to hand on hover */
+}
+
+/* Center the entire VBox */
+.VBox {
+    -fx-alignment: center;
+    -fx-background-color: #f4f6f9;
+    -fx-border-radius: 15;
+    -fx-padding: 30;
+}
+
+/* Styling for Hyperlink */
+Hyperlink {
+    -fx-text-fill: #3498db;
+    -fx-font-size: 14px;
+}
+
+Hyperlink:hover {
+    -fx-text-fill: #2980b9;
+}
+
+/* Styling for the Labels */
+.Label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #555;
+}
+

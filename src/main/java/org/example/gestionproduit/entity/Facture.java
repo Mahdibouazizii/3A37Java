@@ -2,35 +2,36 @@ package org.example.gestionproduit.entity;
 
 import java.sql.Timestamp;
 
-public class
+public class Facture {
 
-
-
-
-
-
-Facture {
     private int id;
-    private int idCommande;    // Link to the Commande (order)
-    private double total;      // Total amount of the facture
-    private String details;    // Details of the items in the facture
-    private Timestamp createdAt; // Date of facture creation
+    private int idCommande;           // Link to the Commande (order)
+    private double total;             // Total amount of the facture
+    private String details;           // Details of the items in the facture
+    private Timestamp createdAt;      // Date of facture creation
+    private String userNom;           // 👤 Client name to display on the facture
 
-    // Constructor to initialize the Facture
-    public Facture(int id, int idCommande, double total, String details, Timestamp createdAt) {
+    // ✅ Full constructor
+    public Facture(int id, int idCommande, double total, String details, Timestamp createdAt, String userNom) {
         this.id = id;
         this.idCommande = idCommande;
         this.total = total;
         this.details = details;
         this.createdAt = createdAt;
+        this.userNom = userNom;
     }
 
-    // Constructor for new Facture (id auto-generated)
+    // ✅ Constructor without ID (used for insertions)
+    public Facture(int idCommande, double total, String details, String userNom) {
+        this(0, idCommande, total, details, new Timestamp(System.currentTimeMillis()), userNom);
+    }
+
+    // ✅ Constructor for backward compatibility (no userNom provided)
     public Facture(int idCommande, double total, String details) {
-        this(0, idCommande, total, details, new Timestamp(System.currentTimeMillis()));
+        this(0, idCommande, total, details, new Timestamp(System.currentTimeMillis()), "");
     }
 
-    // Getters and Setters
+    // 🔽 Getters and Setters
     public int getId() {
         return id;
     }
@@ -69,5 +70,13 @@ Facture {
 
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public String getUserNom() {
+        return userNom;
+    }
+
+    public void setUserNom(String userNom) {
+        this.userNom = userNom;
     }
 }

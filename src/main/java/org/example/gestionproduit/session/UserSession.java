@@ -15,6 +15,12 @@ public class UserSession {
         }
     }
 
+    public void clearSession() {
+        this.user = null;
+        instance = null;
+    }
+
+
     public static UserSession getInstance() {
         return instance;
     }

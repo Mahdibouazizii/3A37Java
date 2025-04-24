@@ -7,14 +7,14 @@ import com.itextpdf.text.pdf.PdfWriter;
 import org.example.gestionproduit.entity.Facture;
 
 import java.io.FileOutputStream;
-import java.io.IOException;
 
 public class FacturePDFGenerator {
+
     public static void generatePDF(Facture facture) {
         try {
             // Path where the PDF will be saved
             String directoryPath = "C:\\Users\\USER\\Desktop\\heni\\gestion-produit\\src\\main\\java\\org\\example\\gestionproduit\\pdf";
-            String fileName = "facture_" + facture.getId() + ".pdf";
+            String fileName = "facture_" + facture.getIdCommande() + ".pdf"; // Updated filename using Commande ID
             String fullPath = directoryPath + "\\" + fileName;
 
             // Create Document and PdfWriter
@@ -22,7 +22,7 @@ public class FacturePDFGenerator {
             PdfWriter.getInstance(document, new FileOutputStream(fullPath));
             document.open();
 
-            // Title Font
+            // Fonts
             Font titleFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 20, BaseColor.BLACK);
             Font sectionFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14, BaseColor.DARK_GRAY);
             Font bodyFont = FontFactory.getFont(FontFactory.HELVETICA, 12, BaseColor.BLACK);
@@ -33,14 +33,14 @@ public class FacturePDFGenerator {
             title.setSpacingAfter(20);
             document.add(title);
 
-            // Invoice Info Section
-            document.add(new Paragraph("Facture ID: " + facture.getId(), bodyFont));
-            document.add(new Paragraph("Commande ID: " + facture.getIdCommande(), bodyFont));
-            document.add(new Paragraph("Date de création: " + facture.getCreatedAt(), bodyFont));
+            // Client Info Section
+            document.add(new Paragraph("👤 Client: " + facture.getUserNom(), bodyFont));
+            document.add(new Paragraph("🧾 Commande ID: " + facture.getIdCommande(), bodyFont));
+            document.add(new Paragraph("📅 Date: " + facture.getCreatedAt(), bodyFont));
             document.add(Chunk.NEWLINE);
 
-            // Add detail table
-            PdfPTable table = new PdfPTable(2); // 2 columns
+            // Detail Table
+            PdfPTable table = new PdfPTable(2);
             table.setWidthPercentage(100);
             table.setSpacingBefore(10f);
             table.setSpacingAfter(10f);
@@ -52,11 +52,10 @@ public class FacturePDFGenerator {
             table.addCell(c1);
             table.addCell(c2);
 
-            // Data rows
-            table.addCell(new Phrase("Produit / Quantité", bodyFont));
+            table.addCell(new Phrase("Produits", bodyFont));
             table.addCell(new Phrase(facture.getDetails(), bodyFont));
 
-            table.addCell(new Phrase("Total à payer (€)", bodyFont));
+            table.addCell(new Phrase("Total (€)", bodyFont));
             table.addCell(new Phrase(String.format("%.2f", facture.getTotal()), bodyFont));
 
             document.add(table);

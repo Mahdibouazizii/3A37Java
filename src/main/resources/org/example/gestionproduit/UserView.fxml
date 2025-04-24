@@ -1,38 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.geometry.Pos?>
-<?import javafx.scene.text.Text?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.*?>
 
 <AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.gestionproduit.controller.UserController">
     <children>
-        <!-- Title -->
-        <Text text="User Management" layoutX="20" layoutY="20">
-            <font>
-                <Font name="Verdana" size="20" />
-            </font>
-        </Text>
+        <VBox spacing="10" layoutX="20" layoutY="20" AnchorPane.leftAnchor="20" AnchorPane.topAnchor="20" AnchorPane.rightAnchor="20">
+            <HBox spacing="10">
+                <Text text="User Management" style="-fx-font-size: 20px; -fx-font-weight: bold;" />
+                <Button text="➕ Add User" onAction="#showAddUserDialog"/>
+            </HBox>
+            <ScrollPane fitToWidth="true" prefHeight="600">
+                <VBox fx:id="userCardContainer" spacing="15">
+                    <padding>
+                        <Insets top="10" right="10" bottom="10" left="10"/>
 
-        <!-- User ListView -->
-        <ListView fx:id="userListView" layoutX="20" layoutY="50" prefHeight="200" prefWidth="300" onMouseClicked="#populateFields" />
+                    </padding>
+                </VBox>
 
-        <!-- Input Fields -->
-        <TextField fx:id="firstNameField" layoutX="350" layoutY="50" promptText="First Name"/>
-        <TextField fx:id="lastNameField" layoutX="350" layoutY="90" promptText="Last Name"/>
-        <TextField fx:id="emailField" layoutX="350" layoutY="130" promptText="Email"/>
-        <TextField fx:id="passwordField" layoutX="350" layoutY="170" promptText="Password"/>
-        <TextField fx:id="addressField" layoutX="350" layoutY="210" promptText="Address"/>
-        <TextField fx:id="profilePictureField" layoutX="350" layoutY="250" promptText="Profile Picture"/>
-        <TextField fx:id="roleField" layoutX="350" layoutY="290" promptText="Role (admin/user)"/>
-        <TextField fx:id="isBannedField" layoutX="350" layoutY="330" promptText="Is Banned (true/false)"/>
-
-        <!-- Buttons -->
-        <Button fx:id="addUserButton" layoutX="350" layoutY="380" text="Add User" onAction="#addUser"/>
-        <Button fx:id="updateUserButton" layoutX="450" layoutY="380" text="Update User" onAction="#updateUser"/>
-        <Button fx:id="deleteUserButton" layoutX="550" layoutY="380" text="Delete User" onAction="#deleteUser"/>
-
-        <!-- Status Label -->
-        <Text fx:id="statusLabel" layoutX="350" layoutY="420" fill="red" />
+            </ScrollPane>
+        </VBox>
     </children>
 </AnchorPane>

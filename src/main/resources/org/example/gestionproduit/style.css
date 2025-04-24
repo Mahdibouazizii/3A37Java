@@ -122,3 +122,9 @@ Hyperlink:hover {
     -fx-text-fill: #555;
 }
 
+.input-error {
+    -fx-border-color: red;
+    -fx-border-width: 2px;
+    -fx-background-color: #fff0f0;
+}
+

@@ -1,3 +1,4 @@
+
 package org.example.gestionproduit.service;
 
 import org.example.gestionproduit.entity.Produit;
@@ -7,16 +8,14 @@ import javafx.collections.ObservableList;
 import java.sql.*;
 
 public class ProduitService {
-    // Update the DB_URL and credentials as necessary.
     private static final String DB_URL = "jdbc:mysql://localhost:3306/projetpi2?useSSL=false&serverTimezone=UTC";
-    private static final String USER = "root";       // Change as needed
-    private static final String PASS = "";           // Change as needed (or leave empty for passwordless)
+    private static final String USER = "root";
+    private static final String PASS = "";
 
     public ProduitService() {
         initializeDatabase();
     }
 
-    // Initialize the database and create the table if it doesn't exist.
     private void initializeDatabase() {
         try (Connection conn = getConnection();
              Statement stmt = conn.createStatement()) {
@@ -27,7 +26,8 @@ public class ProduitService {
                     "image VARCHAR(255), " +
                     "prix DECIMAL(10,2) NOT NULL, " +
                     "stock INT NOT NULL, " +
-                    "poids DECIMAL(10,2) NOT NULL" +
+                    "poids DECIMAL(10,2) NOT NULL, " +
+                    "promo_percentage DOUBLE" +
                     ")";
             stmt.execute(sql);
         } catch (SQLException e) {
@@ -35,13 +35,8 @@ public class ProduitService {
         }
     }
 
-    // Obtain a connection to MySQL.
     private Connection getConnection() throws SQLException {
-        // Option A: With credentials
         return DriverManager.getConnection(DB_URL, USER, PASS);
-
-        // Option B: Without credentials (if configured accordingly)
-        // return DriverManager.getConnection(DB_URL);
     }
 
     public ObservableList<Produit> getAllProduits() {
@@ -51,14 +46,18 @@ public class ProduitService {
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
-                int id = rs.getInt("id");
-                String nom = rs.getString("nom");
-                String description = rs.getString("description");
-                String image = rs.getString("image");
-                double prix = rs.getDouble("prix");
-                int stock = rs.getInt("stock");
-                double poids = rs.getDouble("poids");
-                produits.add(new Produit(id, nom, description, image, prix, stock, poids));
+                Produit produit = new Produit(
+                        rs.getInt("id"),
+                        rs.getString("nom"),
+                        rs.getString("description"),
+                        rs.getString("image"),
+                        rs.getDouble("prix"),
+                        rs.getInt("stock"),
+                        rs.getDouble("poids")
+                );
+                Double promo = rs.getObject("promo_percentage") != null ? rs.getDouble("promo_percentage") : null;
+                produit.setPromoPercentage(promo);
+                produits.add(produit);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -67,7 +66,7 @@ public class ProduitService {
     }
 
     public void addProduit(Produit produit) {
-        String sql = "INSERT INTO produit (nom, description, image, prix, stock, poids) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO produit (nom, description, image, prix, stock, poids, promo_percentage) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             pstmt.setString(1, produit.getNom());
@@ -76,6 +75,11 @@ public class ProduitService {
             pstmt.setDouble(4, produit.getPrix());
             pstmt.setInt(5, produit.getStock());
             pstmt.setDouble(6, produit.getPoids());
+            if (produit.getPromoPercentage() != null) {
+                pstmt.setDouble(7, produit.getPromoPercentage());
+            } else {
+                pstmt.setNull(7, Types.DOUBLE);
+            }
             int affectedRows = pstmt.executeUpdate();
             if (affectedRows == 0) {
                 throw new SQLException("Adding product failed, no rows affected.");
@@ -91,7 +95,7 @@ public class ProduitService {
     }
 
     public void updateProduit(Produit produit) {
-        String sql = "UPDATE produit SET nom = ?, description = ?, image = ?, prix = ?, stock = ?, poids = ? WHERE id = ?";
+        String sql = "UPDATE produit SET nom = ?, description = ?, image = ?, prix = ?, stock = ?, poids = ?, promo_percentage = ? WHERE id = ?";
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, produit.getNom());
@@ -100,7 +104,12 @@ public class ProduitService {
             pstmt.setDouble(4, produit.getPrix());
             pstmt.setInt(5, produit.getStock());
             pstmt.setDouble(6, produit.getPoids());
-            pstmt.setInt(7, produit.getId());
+            if (produit.getPromoPercentage() != null) {
+                pstmt.setDouble(7, produit.getPromoPercentage());
+            } else {
+                pstmt.setNull(7, Types.DOUBLE);
+            }
+            pstmt.setInt(8, produit.getId());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -116,5 +125,43 @@ public class ProduitService {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public void updateProduitStock(Produit produit) {
+        String sql = "UPDATE produit SET stock = ? WHERE id = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, produit.getStock());
+            pstmt.setInt(2, produit.getId());
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Produit getProduitById(int id) {
+        String sql = "SELECT * FROM produit WHERE id = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                Produit produit = new Produit(
+                        rs.getInt("id"),
+                        rs.getString("nom"),
+                        rs.getString("description"),
+                        rs.getString("image"),
+                        rs.getDouble("prix"),
+                        rs.getInt("stock"),
+                        rs.getDouble("poids")
+                );
+                Double promo = rs.getObject("promo_percentage") != null ? rs.getDouble("promo_percentage") : null;
+                produit.setPromoPercentage(promo);
+                return produit;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

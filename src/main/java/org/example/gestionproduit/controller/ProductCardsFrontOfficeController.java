@@ -1,27 +1,68 @@
 package org.example.gestionproduit.controller;
 
+
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+import javafx.animation.Animation;
+import javafx.application.Platform;
+import javafx.concurrent.Worker;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.application.Platform;
+import javafx.concurrent.Worker;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ButtonType;
+import javafx.scene.layout.GridPane;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
+import javafx.util.Duration;
+import netscape.javascript.JSObject;
+
+// JavaScript bridge
+import netscape.javascript.JSObject;
+
+// Dialog layout
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.geometry.Insets;
+
+// File access
+import java.awt.image.BufferedImage;
+import java.io.File;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.example.gestionproduit.entity.*;
 import org.example.gestionproduit.service.*;
 import org.example.gestionproduit.session.UserSession;
 import org.example.gestionproduit.util.FacturePDFGenerator;
+import org.example.gestionproduit.util.MapBridge;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Timestamp;
 import java.util.List;
@@ -91,23 +132,33 @@ public class ProductCardsFrontOfficeController implements Initializable {
     @FXML
     public void handleQuantityChange(ActionEvent event) {
         TextField source = (TextField) event.getSource();
-        CartItem cartItem = (CartItem) source.getUserData();  // Assuming the CartItem is set as userData for the field
+        CartItem cartItem = (CartItem) source.getUserData();  // Assuming CartItem is set as userData
 
-        // Parse the new quantity from the text field
         try {
             int newQuantity = Integer.parseInt(source.getText());
+
             if (newQuantity <= 0) {
-                showAlert("Invalid Quantity", "Quantity must be greater than 0.");
+                showAlert("Quantité invalide", "La quantité doit être supérieure à 0.");
+                source.setText(String.valueOf(cartItem.getQuantity())); // Reset to old value
                 return;
             }
-            cartItem.setQuantity(newQuantity);  // Update quantity in CartItem
 
-            // Now update the total after quantity change
-            updateCartTotal();  // This will recalculate the total based on the new quantity
+            int availableStock = cartItem.getProduit().getStock();
+
+            if (newQuantity > availableStock) {
+                showAlert("Stock insuffisant", "Il ne reste que " + availableStock + " article(s) en stock.");
+                source.setText(String.valueOf(cartItem.getQuantity())); // Reset to previous valid quantity
+                return;
+            }
+
+            cartItem.setQuantity(newQuantity);  // ✅ Set only if valid
+            updateCartTotal();  // ✅ Recalculate
         } catch (NumberFormatException e) {
-            showAlert("Invalid Input", "Please enter a valid number for quantity.");
+            showAlert("Entrée invalide", "Veuillez entrer un nombre valide.");
+            source.setText(String.valueOf(cartItem.getQuantity())); // Reset to previous valid value
         }
     }
+
 
 
 
@@ -242,7 +293,9 @@ public class ProductCardsFrontOfficeController implements Initializable {
         }
 
         // Create and insert Facture linked to the commande
-        Facture facture = new Facture(insertedCommandeId, total, details.toString());
+        String userNom = session.getUser().getNom(); // 👈 Get user's name
+        Facture facture = new Facture(insertedCommandeId, total, details.toString(), userNom);
+
         FactureService factureService = new FactureService();
         if (factureService.addFacture(facture)) {
             // Generate the PDF for the facture
@@ -279,68 +332,51 @@ public class ProductCardsFrontOfficeController implements Initializable {
             private final Button btnRemove;
             private final Button btnGenerateFacture;
 
-            @FXML
-            private void handleGenerateCartFacture() {
-                if (panier.isEmpty()) {
-                    showAlert("Panier vide", "Ajoutez des produits au panier avant de générer la facture.");
-                    return;
-                }
-
-                double total = 0;
-                StringBuilder details = new StringBuilder();
-
-                for (CartItem item : panier) {
-                    double itemTotal = item.getProduit().getPrix() * item.getQuantity(); // ✅ FIXED
-                    total += itemTotal;
-
-                    details.append(item.getProduit().getNom())
-                            .append(" x ")
-                            .append(item.getQuantity())
-                            .append(" = ")
-                            .append(String.format("%.2f", itemTotal))
-                            .append("\n");
-                }
-
-
-                // Generate dummy facture object (you can link with Commande ID if needed)
-                Facture facture = new Facture(0, total, details.toString()); // ProduitId set to 0 if not needed
-
-                FactureService factureService = new FactureService();
-                if (factureService.addFacture(facture)) {
-                    FacturePDFGenerator.generatePDF(facture);
-                    showAlert("Succès", "Facture générée pour le panier.");
-                } else {
-                    showAlert("Erreur", "Échec de la génération de la facture.");
-                }
-            }
-
-
             {
                 nameLabel = new Label();
                 priceLabel = new Label();
+
                 quantityField = new TextField();
                 quantityField.setPrefWidth(50);
+
                 btnRemove = new Button("Remove");
                 btnGenerateFacture = new Button("Generate Facture");
 
+                content = new HBox(10, nameLabel, priceLabel, quantityField, btnRemove, btnGenerateFacture);
+                content.setPadding(new Insets(5));
+
+                // Remove item button
                 btnRemove.setOnAction(e -> {
                     CartItem item = getItem();
                     if (item != null) {
-                        panier.remove(item);  // Remove item from panier
-                        updateCartTotal();  // Update total price
+                        panier.remove(item);
+                        updateCartTotal();
                     }
                 });
 
-                // Handle facture generation
+                // Generate facture for individual item
                 btnGenerateFacture.setOnAction(e -> {
                     CartItem item = getItem();
                     if (item != null) {
-                        generateFactureForCartItem(item);  // Generate Facture for this CartItem
+                        generateFactureForCartItem(item);
                     }
                 });
 
-                content = new HBox(10, nameLabel, priceLabel, quantityField, btnRemove, btnGenerateFacture);
-                content.setPadding(new Insets(5));
+                // Update quantity and recalculate total
+                quantityField.textProperty().addListener((obs, oldVal, newVal) -> {
+                    CartItem item = getItem();
+                    if (item != null) {
+                        try {
+                            int newQuantity = Integer.parseInt(newVal);
+                            if (newQuantity > 0) {
+                                item.setQuantity(newQuantity);
+                                updateCartTotal();
+                            }
+                        } catch (NumberFormatException ex) {
+                            // Optionally reset to old value or ignore
+                        }
+                    }
+                });
             }
 
             @Override
@@ -349,14 +385,15 @@ public class ProductCardsFrontOfficeController implements Initializable {
                 if (empty || item == null) {
                     setGraphic(null);
                 } else {
-                    nameLabel.setText(item.getProduit().getNom());  // Product name
-                    priceLabel.setText(String.format("Price: %.2f", item.getProduit().getPrix()));  // Product price
-                    quantityField.setText(String.valueOf(item.getQuantity()));  // Product quantity
-                    setGraphic(content);  // Set the content for this item
+                    nameLabel.setText(item.getProduit().getNom());
+                    priceLabel.setText(String.format("Price: %.2f", item.getProduit().getPrix()));
+                    quantityField.setText(String.valueOf(item.getQuantity()));
+                    setGraphic(content);
                 }
             }
         });
     }
+
 
     // Generate Facture for a CartItem
     private void generateFactureForCartItem(CartItem item) {
@@ -389,7 +426,6 @@ public class ProductCardsFrontOfficeController implements Initializable {
         card.setSpacing(5);
         card.setPadding(new Insets(10));
         card.setPrefWidth(220);
-        card.setPrefHeight(360);
         card.setStyle(
                 "-fx-background-color: #ffffff;" +
                         "-fx-border-color: #cccccc;" +
@@ -400,91 +436,141 @@ public class ProductCardsFrontOfficeController implements Initializable {
                         "-fx-padding: 10;"
         );
 
-        // Uniform product image
+        // Product image
         ImageView imageView = new ImageView();
         imageView.setFitWidth(150);
         imageView.setFitHeight(150);
         imageView.setPreserveRatio(true);
-        imageView.setSmooth(true);
         File file = new File(produit.getImage());
         if (file.exists()) {
-            Image image = new Image(file.toURI().toString(), true);
-            imageView.setImage(image);
+            imageView.setImage(new Image(file.toURI().toString(), true));
         }
 
-        // Product detail labels
         Label nameLabel = new Label(produit.getNom());
-        nameLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #333333;");
-        Label descLabel = new Label(produit.getDescription());
-        descLabel.setStyle("-fx-text-fill: #666666;");
-        Label priceLabel = new Label(String.format("Price: %.2f", produit.getPrix()));
-        priceLabel.setStyle("-fx-text-fill: #27ae60; -fx-font-size: 14px; -fx-font-weight: bold;");
+        nameLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
 
-        // Existing feedback display (if any)
-        StringBuilder feedbackDisplay = new StringBuilder();
+        Label descLabel = new Label(produit.getDescription());
+        descLabel.setWrapText(true);
+
+        // ✅ Display promo price if applicable
+        Label priceLabel;
+        if (produit.getPromoPercentage() != null && produit.getPromoPercentage() > 0) {
+            double discountedPrice = produit.getPrix(); // prix in DB is already discounted
+            double originalPrice = discountedPrice / (1 - produit.getPromoPercentage() / 100.0);
+
+            Label originalPriceLabel = new Label(String.format("Original: %.2f €", originalPrice));
+            originalPriceLabel.setStyle("-fx-text-fill: #888888; -fx-strikethrough: true; -fx-font-size: 12px;");
+
+            priceLabel = new Label(String.format("Promo: %.2f € (%.0f%% OFF)", discountedPrice, produit.getPromoPercentage()));
+            priceLabel.setStyle("-fx-text-fill: #e74c3c; -fx-font-size: 14px; -fx-font-weight: bold;");
+
+            card.getChildren().add(originalPriceLabel);
+        } else {
+            priceLabel = new Label(String.format("Price: %.2f €", produit.getPrix()));
+            priceLabel.setStyle("-fx-text-fill: #27ae60; -fx-font-size: 14px; -fx-font-weight: bold;");
+        }
+
+        // 🔲 Generate QR code image
+        ImageView qrView = new ImageView();
+        qrView.setFitWidth(100);
+        qrView.setFitHeight(100);
+        try {
+            String qrData = "Nom: " + produit.getNom() + "\nDescription: " + produit.getDescription() + "\nStock: " + produit.getStock();
+            BitMatrix matrix = new MultiFormatWriter().encode(qrData, BarcodeFormat.QR_CODE, 200, 200);
+            Path qrPath = Files.createTempFile("qr_" + produit.getId(), ".png");
+            MatrixToImageWriter.writeToPath(matrix, "PNG", qrPath);
+            qrView.setImage(new Image(qrPath.toUri().toString()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // ✅ Feedback Section
+        VBox feedbackBox = new VBox(5);
+        feedbackBox.setPadding(new Insets(5, 0, 0, 0));
+        feedbackBox.setStyle("-fx-background-color: #f9f9f9; -fx-padding: 5; -fx-border-color: #ddd;");
+
+        Label feedbackHeader = new Label("Avis des clients :");
+        feedbackHeader.setStyle("-fx-font-weight: bold; -fx-font-size: 13px;");
+        feedbackBox.getChildren().add(feedbackHeader);
+
         List<Feedback> feedbacks = feedbackService.getFeedbacksForProduct(produit.getId());
         if (feedbacks.isEmpty()) {
-            feedbackDisplay.append("No feedback yet.");
+            Label noFeedback = new Label("Aucun avis disponible.");
+            noFeedback.setStyle("-fx-text-fill: #777;");
+            feedbackBox.getChildren().add(noFeedback);
         } else {
-            for (Feedback feedback : feedbacks) {
-                feedbackDisplay.append(feedback.getCommentaire())
-                        .append(" (Rating: ").append(feedback.getRating()).append(")\n");
+            for (Feedback fb : feedbacks) {
+                Label fbLabel = new Label("★ " + fb.getRating() + " — " + fb.getCommentaire());
+                fbLabel.setWrapText(true);
+                fbLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: #333;");
+                feedbackBox.getChildren().add(fbLabel);
             }
         }
 
-        // Label to display feedback
-        Label feedbackLabel = new Label(feedbackDisplay.toString());
-        feedbackLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: #555555;");
-
-        // "Feedback" button
+        // Buttons
         Button btnFeedback = new Button("Feedback");
-        btnFeedback.setStyle(
-                "-fx-background-color: #3498db;" +
-                        "-fx-text-fill: white;" +
-                        "-fx-font-weight: bold;" +
-                        "-fx-background-radius: 5;"
-        );
         btnFeedback.setOnAction(e -> handleFeedback(produit));
 
-        // "Purchase" button
         Button btnPurchase = new Button("Purchase");
-        btnPurchase.setStyle(
-                "-fx-background-color: #27ae60;" +
-                        "-fx-text-fill: white;" +
-                        "-fx-font-weight: bold;" +
-                        "-fx-background-radius: 5;"
-        );
         btnPurchase.setOnAction(e -> handlePurchase(produit));
 
-        HBox actionButtons = new HBox(10, btnFeedback, btnPurchase);
+        HBox buttonBox = new HBox(10, btnFeedback, btnPurchase);
 
-        // Assemble card
+        // Add all components to the card
         card.getChildren().addAll(
                 imageView,
                 nameLabel,
                 descLabel,
                 priceLabel,
-                feedbackLabel,   // Add feedback label
-                actionButtons
+                qrView,
+                feedbackBox,
+                buttonBox
         );
 
         return card;
     }
 
+
+
+
+
     // Add the product to the shopping cart (panier)
     private void handlePurchase(Produit produit) {
+        // Check if there's enough stock
+        int quantityInCart = panier.stream()
+                .filter(item -> item.getProduit().getId() == produit.getId())
+                .mapToInt(CartItem::getQuantity)
+                .sum();
+
+        if (produit.getStock() <= quantityInCart) {
+            showAlert("Stock insuffisant", "Le stock de ce produit est épuisé ou insuffisant pour en ajouter plus.");
+            return;
+        }
+
         boolean found = false;
         for (CartItem item : panier) {
             if (item.getProduit().getId() == produit.getId()) {
-                item.setQuantity(item.getQuantity() + 1);  // Increase quantity if product already exists
+                item.setQuantity(item.getQuantity() + 1);
                 found = true;
                 break;
             }
         }
 
         if (!found) {
-            panier.add(new CartItem(produit, 1));  // Add new product if not already in the cart
+            panier.add(new CartItem(produit, 1));
         }
+        updateCartTotal();
+    }
+
+    private void finalizeCommande(Commande commande) {
+        ProduitService produitService = new ProduitService();
+        for (CartItem item : panier) {
+            Produit produit = item.getProduit();
+            int newStock = produit.getStock() - item.getQuantity();
+            produit.setStock(Math.max(0, newStock));
+            produitService.updateProduitStock(produit);
+        }
+        panier.clear();
         updateCartTotal();
     }
 
@@ -496,64 +582,269 @@ public class ProductCardsFrontOfficeController implements Initializable {
             return;
         }
 
-        double total = 0;
-        StringBuilder productsList = new StringBuilder();
+        // ✅ STEP 1: Check for stock availability
+        boolean stockError = false;
+        StringBuilder stockWarnings = new StringBuilder();
 
         for (CartItem item : panier) {
-            total += item.getTotalPrice();  // Get total price from CartItem
-            productsList.append(item.getProduit().getId())  // productId
-                    .append(":")
-                    .append(item.getQuantity())  // quantity
-                    .append(", ");  // Format: productId:quantity
+            Produit latestProduit = produitService.getProduitById(item.getProduit().getId());
+            int availableStock = latestProduit.getStock();
+
+            if (item.getQuantity() > availableStock) {
+                item.setQuantity(availableStock); // Update cart quantity to max
+                stockError = true;
+                stockWarnings.append(" - ")
+                        .append(item.getProduit().getNom())
+                        .append(": stock disponible = ")
+                        .append(availableStock)
+                        .append("\n");
+            }
         }
 
-        // Remove the last comma
-        if (productsList.length() > 0) {
-            productsList.setLength(productsList.length() - 2);
+        if (stockError) {
+            updateCartTotal();
+            showAlert("Stock insuffisant", "Certains produits ont été mis à jour à la quantité maximale disponible :\n\n" + stockWarnings);
+            return; // Exit early
         }
 
-        // Get the current user ID from the session
-        UserSession userSession = UserSession.getInstance();
-        if (userSession == null || userSession.getUser() == null) {
-            showAlert("Session Error", "No active user session found.");
+        // ✅ STEP 2: Open dialog for address and payment
+        Dialog<ButtonType> dialog = new Dialog<>();
+        dialog.setTitle("Confirmer la commande");
+        dialog.setHeaderText("Choisissez votre adresse sur la carte");
+
+        WebView mapView = new WebView();
+        mapView.setPrefSize(600, 360);
+        WebEngine webEngine = mapView.getEngine();
+        URL mapUrl = getClass().getResource("/org/example/gestionproduit/map.html");
+        if (mapUrl == null) {
+            showAlert("Erreur", "Impossible de charger la carte.");
             return;
         }
-        int userId = userSession.getUser().getId();  // Get the logged-in user ID from the session
+        webEngine.load(mapUrl.toExternalForm());
 
-        // Register the order (commande) using CommandeService and associate it with the user
-        Commande commande = new Commande(total, productsList.toString(), userId);  // Pass the user ID here
-        int commandeId = commandeService.addCommandeAndReturnId(commande);
+        TextField addressField = new TextField();
+        addressField.setPromptText("Aucune adresse sélectionnée");
+        addressField.setEditable(false);
 
-        if (commandeId == -1) {
-            showAlert("Error", "Failed to register the order.");
-            return;
-        }
+        Timeline poller = new Timeline(new KeyFrame(Duration.millis(200), e -> {
+            try {
+                String coords = (String) webEngine.executeScript("document.getElementById('coords').value");
+                if (coords != null && !coords.isEmpty()) {
+                    addressField.setText(coords);
+                }
+            } catch (Exception ignored) {}
+        }));
+        poller.setCycleCount(Animation.INDEFINITE);
+        poller.play();
 
-        // Create and insert Facture linked to the commande
-        Facture facture = new Facture(commandeId, total, productsList.toString());
-        FactureService factureService = new FactureService();
-        if (factureService.addFacture(facture)) {
-            // Generate the PDF for the facture
-            FacturePDFGenerator.generatePDF(facture);
-            showAlert("Success", "Your order has been registered and facture generated.");
+        ComboBox<String> paiementCombo = new ComboBox<>(FXCollections.observableArrayList("à la livraison", "en ligne"));
+        paiementCombo.setValue("à la livraison");
 
-            // Clear the cart and update the total
-            panier.clear();
-            updateCartTotal();  // This will update the total displayed in the UI
-        } else {
-            showAlert("Error", "Failed to generate facture.");
+        GridPane content = new GridPane();
+        content.setHgap(10);
+        content.setVgap(10);
+        content.setPadding(new Insets(10));
+        content.add(new Label("Type de Paiement:"), 0, 0);
+        content.add(paiementCombo, 1, 0);
+        content.add(new Label("Adresse sélectionnée:"), 0, 1);
+        content.add(addressField, 1, 1);
+        content.add(mapView, 0, 2, 2, 1);
+
+        dialog.getDialogPane().setContent(content);
+        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+        dialog.setResultConverter(btn -> btn == ButtonType.OK ? ButtonType.OK : null);
+
+        dialog.showAndWait().ifPresent(result -> {
+            poller.stop();
+
+            String selectedAddress = addressField.getText();
+            if (selectedAddress == null || selectedAddress.isBlank()) {
+                showAlert("Erreur", "Veuillez cliquer sur la carte pour choisir un point.");
+                return;
+            }
+
+            double total = panier.stream().mapToDouble(CartItem::getTotalPrice).sum();
+            StringBuilder productsList = new StringBuilder();
+            panier.forEach(item -> productsList
+                    .append(item.getProduit().getId())
+                    .append(':')
+                    .append(item.getQuantity())
+                    .append(", "));
+            if (productsList.length() > 0) productsList.setLength(productsList.length() - 2);
+
+            User user = UserSession.getInstance().getUser();
+            if (user == null) {
+                showAlert("Erreur", "Aucun utilisateur connecté.");
+                return;
+            }
+
+            String paiementType = paiementCombo.getValue();
+
+            if (paiementType.equals("en ligne")) {
+                try {
+                    String sessionUrl = StripePaymentService.createStripeSession(panier);
+                    Stage stripeStage = new Stage();
+                    WebView stripeView = new WebView();
+                    WebEngine stripeEngine = stripeView.getEngine();
+                    stripeEngine.load(sessionUrl);
+
+                    stripeEngine.locationProperty().addListener((obs, oldLoc, newLoc) -> {
+                        if (newLoc.contains("https://example.com/success")) {
+                            stripeStage.close();
+                            Commande commande = new Commande(
+                                    0, total, productsList.toString(), new Timestamp(System.currentTimeMillis()),
+                                    user.getId(), selectedAddress, paiementType, "validée", user.getNom()
+                            );
+                            int commandeId = commandeService.addCommandeAndReturnId(commande);
+                            if (commandeId == -1) {
+                                showAlert("Erreur", "Échec commande.");
+                                return;
+                            }
+
+                            Facture facture = new Facture(commandeId, total, productsList.toString(), user.getNom());
+                            if (new FactureService().addFacture(facture)) {
+                                FacturePDFGenerator.generatePDF(facture);
+                                showAlert("Paiement réussi", "Commande validée et facture générée.");
+                                finalizeCommande(commande);
+                            } else {
+                                showAlert("Erreur", "Facture non générée.");
+                            }
+                        } else if (newLoc.contains("https://example.com/cancel")) {
+                            stripeStage.close();
+                            showAlert("Paiement annulé", "Le paiement a été annulé.");
+                        }
+                    });
+
+                    stripeStage.setTitle("Paiement Stripe");
+                    stripeStage.setScene(new Scene(stripeView, 800, 600));
+                    stripeStage.show();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    showAlert("Stripe Error", "Erreur Stripe : " + e.getMessage());
+                }
+            } else {
+                Commande commande = new Commande(
+                        0, total, productsList.toString(), new Timestamp(System.currentTimeMillis()),
+                        user.getId(), selectedAddress, paiementType, "en cours", user.getNom()
+                );
+                int commandeId = commandeService.addCommandeAndReturnId(commande);
+                if (commandeId == -1) {
+                    showAlert("Erreur", "Échec commande.");
+                    return;
+                }
+
+                Facture facture = new Facture(commandeId, total, productsList.toString(), user.getNom());
+                if (new FactureService().addFacture(facture)) {
+                    FacturePDFGenerator.generatePDF(facture);
+                    showAlert("Succès", "Commande confirmée et facture générée.");
+                    finalizeCommande(commande);
+                } else {
+                    showAlert("Erreur", "Échec de la facture.");
+                }
+            }
+        });
+    }
+
+
+
+
+    // helper: call OSM Nominatim
+    private String reverseGeocode(double lat, double lon) {
+        try {
+            var client = java.net.http.HttpClient.newHttpClient();
+            String url = String.format(
+                    "https://nominatim.openstreetmap.org/reverse?format=json&lat=%.6f&lon=%.6f",
+                    lat, lon
+            );
+            var req = java.net.http.HttpRequest.newBuilder()
+                    .uri(java.net.URI.create(url))
+                    .header("User-Agent","JavaFXApp/1.0")
+                    .build();
+            var resp = client.send(req, java.net.http.HttpResponse.BodyHandlers.ofString());
+            // parse JSON for display_name
+            var mapper = new com.fasterxml.jackson.databind.ObjectMapper();
+            var root   = mapper.readTree(resp.body());
+            return root.path("display_name").asText("");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
         }
     }
 
 
+
+
+
+
+
+    @FXML
+    private void handleMesCommandes() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/gestionproduit/MesCommandes.fxml"));
+            ScrollPane root = loader.load();
+            Stage stage = new Stage();
+            stage.setTitle("Mes Commandes");
+            stage.setScene(new Scene(root, 700, 500));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert("Erreur", "Impossible de charger la vue des commandes.");
+        }
+    }
+
+
+    @FXML
+    public void handleLogout() {
+        UserSession.getInstance().clearSession();
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/gestionproduit/Login.fxml"));
+            Parent loginRoot = loader.load(); // Use Parent instead of BorderPane
+            Stage stage = (Stage) flowPane.getScene().getWindow();
+            stage.setScene(new Scene(loginRoot));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Erreur", "Échec du chargement de la page de connexion.");
+        }
+    }
+
+    @FXML
+    private void handleGoToAdmin() {
+        if (UserSession.getInstance().getUser().getRoles().equalsIgnoreCase("admin")) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/gestionproduit/BackofficeDashboard.fxml"));
+                Scene dashboardScene = new Scene(loader.load(), 1200, 700); // ✅ Increased window size
+
+                Stage stage = (Stage) flowPane.getScene().getWindow();
+                stage.setScene(dashboardScene);
+                stage.centerOnScreen(); // Optional: center the window
+                stage.setResizable(true); // Optional: allow resizing
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            showAlert("Access Denied", "Only admins can access the dashboard.");
+        }
+    }
+
+
+
+
+
+
+
+
     // Opens a dialog for users to add feedback for a product.
     private void handleFeedback(Produit produit) {
-        // Get current user ID from session
         UserSession userSession = UserSession.getInstance();
         if (userSession == null || userSession.getUser() == null) {
             showAlert("Session Error", "No active user session found.");
             return;
         }
+
         int userId = userSession.getUser().getId();
 
         Stage dialog = new Stage();
@@ -592,6 +883,12 @@ public class ProductCardsFrontOfficeController implements Initializable {
                 return;
             }
 
+            // 🔞 Check for bad words via API
+            if (containsProfanity(comment)) {
+                showAlert("Contenu inapproprié", "Votre commentaire contient des mots interdits.");
+                return;
+            }
+
             int rating;
             try {
                 rating = Integer.parseInt(ratingStr);
@@ -604,17 +901,36 @@ public class ProductCardsFrontOfficeController implements Initializable {
                 return;
             }
 
-            // Always add new feedback
             feedbackService.addFeedback(new Feedback(produit.getId(), comment, rating, userId));
-
             dialog.close();
-            refreshCards(); // Refresh cards to reflect new feedback
+            refreshCards(); // Refresh to reflect new feedback
         });
 
         Scene scene = new Scene(grid);
         dialog.setScene(scene);
         dialog.showAndWait();
     }
+
+
+    private boolean containsProfanity(String text) {
+        try {
+            String encoded = java.net.URLEncoder.encode(text, "UTF-8");
+            String url = "https://www.purgomalum.com/service/containsprofanity?text=" + encoded;
+
+            java.net.http.HttpClient client = java.net.http.HttpClient.newHttpClient();
+            java.net.http.HttpRequest request = java.net.http.HttpRequest.newBuilder()
+                    .uri(java.net.URI.create(url))
+                    .build();
+            java.net.http.HttpResponse<String> response = client.send(
+                    request, java.net.http.HttpResponse.BodyHandlers.ofString());
+
+            return response.body().contains("true");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -623,6 +939,4 @@ public class ProductCardsFrontOfficeController implements Initializable {
         alert.setContentText(message);
         alert.showAndWait();
     }
-
-
 }

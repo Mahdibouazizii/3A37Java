@@ -15,13 +15,18 @@
       <list>
         <option value="CSS File" />
         <option value="Kotlin Class" />
-        <option value="FxmlFile" />
         <option value="Class" />
+        <option value="HTML File" />
+        <option value="FxmlFile" />
       </list>
     </option>
   </component>
-  <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
+      </MavenGeneralSettings>
+    </option>
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 5
@@ -36,29 +41,34 @@
     "Application.HelloApplication.executor": "Run",
     "Application.Main.executor": "Run",
     "Application.Unnamed.executor": "Run",
+    "DefaultHtmlFileTemplate": "HTML File",
+    "JavaScript Debug.recaptcha.html.executor": "Run",
+    "Maven.gestion-produit [install].executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "com.codeium.enabled": "true",
-    "git-widget-placeholder": "user",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/ahmed/Desktop/PI-JAVA/heni",
+    "last_opened_file_path": "C:/Users/soufi/Downloads/bzezelbinechikh/gestion-produit/src/main/resources/org/example/gestionproduit/icons",
     "list.type.of.created.stylesheet": "CSS",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "preferences.editor",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\soufi\Downloads\bzezelbinechikh\gestion-produit\src\main\resources\org\example\gestionproduit\icons" />
+      <recent name="C:\Users\soufi\Downloads\bzezelbinechikh\gestion-produit\src\main\resources" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\soufi\Downloads\bzezelbinechikh\gestion-produit\src\main\resources\org\example\gestionproduit\icons" />
+      <recent name="C:\Users\soufi\Downloads\bzezelbinechikh\gestion-produit\src\main\resources\icons" />
+      <recent name="C:\Users\soufi\Downloads\bzezelbinechikh\gestion-produit\src\main\resources\org\example\gestionproduit" />
       <recent name="C:\Users\soufi\OneDrive\Bureau\heni\gestion-produit\src\main\resources\org\example\gestionproduit" />
       <recent name="C:\Users\soufi\OneDrive\Bureau\heni\gestion-produit\src\main\resources" />
     </key>
@@ -75,8 +85,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="jdk-17.0.10-corretto-17.0.10-4caba194b151-5cd809f4" />
-        <option value="jdk-22-openjdk-22-4caba194b151-f504ca98" />
+        <option value="bundled-jdk-9823dce3aa75-28b599e66164-intellij.indexing.shared.core-IU-242.22855.74" />
+        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-IU-242.22855.74" />
       </set>
     </attachedChunks>
   </component>
@@ -91,16 +101,31 @@
       <workItem from="1743955945646" duration="10701000" />
       <workItem from="1744008782658" duration="24000" />
       <workItem from="1744292522669" duration="3236000" />
-      <workItem from="1744883880727" duration="23967000" />
-      <workItem from="1744915611657" duration="103000" />
-      <workItem from="1744915722329" duration="43000" />
-      <workItem from="1744924692368" duration="56000" />
-      <workItem from="1744924864207" duration="14000" />
-      <workItem from="1744924885051" duration="696000" />
+      <workItem from="1744883880727" duration="25695000" />
+      <workItem from="1745074067071" duration="4184000" />
+      <workItem from="1745084358526" duration="21000" />
+      <workItem from="1745161671178" duration="6022000" />
+      <workItem from="1745224031250" duration="1345000" />
+      <workItem from="1745225561823" duration="4557000" />
+      <workItem from="1745230375465" duration="1993000" />
+      <workItem from="1745248513485" duration="1180000" />
+      <workItem from="1745400456442" duration="4327000" />
+      <workItem from="1745415754593" duration="7111000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/example/gestionproduit/controller/ProductCardsFrontOfficeController.java</url>
+          <line>784</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

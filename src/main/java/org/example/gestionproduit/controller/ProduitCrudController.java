@@ -53,45 +53,113 @@ public class ProduitCrudController implements Initializable {
         ImageView imageView = new ImageView();
         Label nameLabel = new Label(produit.getNom());
         Label descLabel = new Label(produit.getDescription());
-        Label priceLabel = new Label(String.format("Price: %.2f", produit.getPrix()));
 
-        // Set image for the card
+        Label priceLabel;
+
+        if (produit.getPromoPercentage() != null && produit.getPromoPercentage() > 0) {
+            double discountedPrice = produit.getPrix(); // prix is already discounted
+            double originalPrice = discountedPrice / (1 - produit.getPromoPercentage() / 100.0); // reverse calculation
+
+            Label originalPriceLabel = new Label(String.format("Original: %.2f €", originalPrice));
+            originalPriceLabel.setStyle("-fx-text-fill: #888888; -fx-strikethrough: true; -fx-font-size: 12px;");
+            priceLabel = new Label(String.format("Promo: %.2f € (%.0f%% OFF)", discountedPrice, produit.getPromoPercentage()));
+            priceLabel.setStyle("-fx-text-fill: #e74c3c; -fx-font-size: 14px; -fx-font-weight: bold;");
+            card.getChildren().add(originalPriceLabel);
+        } else {
+            priceLabel = new Label(String.format("Price: %.2f €", produit.getPrix()));
+            priceLabel.setStyle("-fx-text-fill: #27ae60; -fx-font-size: 14px; -fx-font-weight: bold;");
+        }
+
+        // Set image
         File file = new File(produit.getImage());
         if (file.exists()) {
             imageView.setImage(new Image(file.toURI().toString()));
         }
-
-        // Style the card container
-        card.setStyle("-fx-background-color: #ffffff; -fx-border-color: #cccccc; " +
-                "-fx-border-width: 1; -fx-background-radius: 8; -fx-border-radius: 8; " +
-                "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 10, 0, 0, 2);");
-
-        // Style the labels
-        nameLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #333333;");
-        descLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: #777777;");
-        priceLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #27ae60;");
-
-        // Set image size
         imageView.setFitWidth(150);
         imageView.setFitHeight(150);
         imageView.setPreserveRatio(true);
 
-        // Create a delete button for each product
-        Button btnDelete = new Button("Delete");
-        btnDelete.setStyle("-fx-background-color: #F44336; -fx-text-fill: white;");
-        btnDelete.setOnAction(e -> handleDelete(produit));  // Delete this product
+        // Style card container
+        card.setStyle("-fx-background-color: #ffffff; -fx-border-color: #cccccc; " +
+                "-fx-border-width: 1; -fx-background-radius: 8; -fx-border-radius: 8; " +
+                "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 10, 0, 0, 2);");
 
-        // Add the name, description, price, image, and delete button to the card
-        HBox hbox = new HBox(10, nameLabel, btnDelete);
-        hbox.setSpacing(10);
-        hbox.setStyle("-fx-alignment: center-left;");
+        nameLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #333;");
+        descLabel.setStyle("-fx-font-size: 13px; -fx-text-fill: #555;");
+
+        // Action buttons
+        Button btnDelete = new Button("Delete");
+        btnDelete.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white;");
+        btnDelete.setOnAction(e -> handleDelete(produit));
+
+        Button btnPromo = new Button("Add Promo");
+        btnPromo.setStyle("-fx-background-color: #2980b9; -fx-text-fill: white;");
+        btnPromo.setOnAction(e -> handlePromo(produit));
+
+        Button btnRemovePromo = new Button("Remove Promo");
+        btnRemovePromo.setStyle("-fx-background-color: #c0392b; -fx-text-fill: white;");
+        btnRemovePromo.setOnAction(e -> handleRemovePromo(produit));
+
+        HBox buttonBox = new HBox(10, btnDelete, btnPromo, btnRemovePromo);
+        buttonBox.setPadding(new Insets(5, 0, 0, 0));
 
         card.setPadding(new Insets(10));
-        card.setSpacing(10);
-        card.getChildren().addAll(imageView, hbox, descLabel, priceLabel);
+        card.setSpacing(8);
+        card.getChildren().addAll(imageView, nameLabel, descLabel, priceLabel, buttonBox);
 
         return card;
     }
+
+
+
+    private void handleRemovePromo(Produit produit) {
+        if (produit.getPromoPercentage() == null) {
+            showAlert("Info", "Ce produit n'a pas de promotion.");
+            return;
+        }
+
+        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION,
+                "Êtes-vous sûr de vouloir supprimer la promotion pour " + produit.getNom() + " ?",
+                ButtonType.YES, ButtonType.NO);
+        confirm.setHeaderText(null);
+
+        confirm.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.YES) {
+                produit.setPromoPercentage(null);
+                produitService.updateProduit(produit);
+                refreshList();
+            }
+        });
+    }
+
+    private void handlePromo(Produit produit) {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Ajouter une promotion");
+        dialog.setHeaderText("Entrez le pourcentage de promotion (%) pour : " + produit.getNom());
+        dialog.setContentText("Promotion (%):");
+
+        dialog.showAndWait().ifPresent(input -> {
+            try {
+                double promo = Double.parseDouble(input);
+                if (promo < 0 || promo > 100) {
+                    showAlert("Erreur", "Le pourcentage doit être entre 0 et 100.");
+                    return;
+                }
+
+                // Apply promo
+                double originalPrice = produit.getPrix();
+                double discountedPrice = originalPrice - (originalPrice * promo / 100.0);
+
+                produit.setPromoPercentage(promo);
+                produit.setPrix(discountedPrice);  // ⚠️ Update actual price!
+                produitService.updateProduit(produit);
+                refreshList();
+            } catch (NumberFormatException e) {
+                showAlert("Erreur", "Veuillez entrer un nombre valide.");
+            }
+        });
+    }
+
     private void handleDelete(Produit produit) {
         // Confirm deletion
         Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION,

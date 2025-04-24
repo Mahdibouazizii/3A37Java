@@ -11,6 +11,12 @@ public class User {
     private String roles; // e.g., "admin", "user"
     private boolean isBanned;
 
+
+    private String resetKey;
+
+    public String getResetKey() { return resetKey; }
+    public void setResetKey(String resetKey) { this.resetKey = resetKey; }
+
     // Constructors
     public User() {}
 

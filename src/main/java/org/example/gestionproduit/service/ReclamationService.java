@@ -45,4 +45,26 @@ public class ReclamationService {
         }
         return list;
     }
+
+    public List<Reclamation> getAllReclamations() {
+        List<Reclamation> list = new ArrayList<>();
+        String sql = "SELECT * FROM reclamation";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                list.add(new Reclamation(
+                        rs.getInt("id"),
+                        rs.getInt("user_id"),
+                        rs.getString("sujet"),
+                        rs.getString("description"),
+                        rs.getTimestamp("created_at")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
 }

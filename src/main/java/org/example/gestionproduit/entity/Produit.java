@@ -11,6 +11,9 @@ public class Produit {
     private final IntegerProperty stock;
     private final DoubleProperty poids;
 
+    private Double promoPercentage; // nullable
+
+
     public Produit(int id, String nom, String description, String image, double prix, int stock, double poids) {
         this.id = new SimpleIntegerProperty(id);
         this.nom = new SimpleStringProperty(nom);
@@ -48,4 +51,13 @@ public class Produit {
     public double getPoids() { return poids.get(); }
     public void setPoids(double poids) { this.poids.set(poids); }
     public DoubleProperty poidsProperty() { return poids; }
+
+
+    public Double getPromoPercentage() {
+        return promoPercentage;
+    }
+
+    public void setPromoPercentage(Double promoPercentage) {
+        this.promoPercentage = promoPercentage;
+    }
 }

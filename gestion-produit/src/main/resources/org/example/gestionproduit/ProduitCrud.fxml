@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.example.gestionproduit.controller.ProduitCrudController">
+
+    <!-- ================= Sidebar ================= -->
+    <left>
+        <VBox layoutX="0.0" layoutY="0.0" prefWidth="250.0" prefHeight="600.0"
+              style="-fx-background-color: #34495e;" spacing="20" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0">
+            <Label text="Menu" style="-fx-text-fill: white; -fx-font-size: 24px; -fx-font-weight: bold; -fx-padding: 20 0 0 20;" />
+
+            <!-- Buttons with Icons -->
+            <Button styleClass="side-btn" maxWidth="250.0" style="-fx-background-color: #2c3e50; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10 20;">
+                <graphic>
+                    <HBox spacing="15">
+                        <ImageView fx:id="homeIcon" fitHeight="20" fitWidth="20" pickOnBounds="true" preserveRatio="true" />
+                        <Label text="Accueil" style="-fx-text-fill: white; -fx-font-size: 16px;" />
+                    </HBox>
+                </graphic>
+            </Button>
+            <Button fx:id="produitsButton" onAction="#goToAfficherEventBack" maxWidth="250.0"
+                    style="-fx-background-color: #2c3e50; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10 20; -fx-border-radius: 5; -fx-effect: innershadow(gaussian, black, 0.6, 0.0, 5.0, 0.0);"
+                    styleClass="side-btn">
+                <graphic>
+                    <HBox spacing="15">
+                        <ImageView fx:id="productIcon" fitHeight="20" fitWidth="20" pickOnBounds="true" preserveRatio="true" />
+                        <Label style="-fx-text-fill: white; -fx-font-size: 16px;" text="Event" />
+                    </HBox>
+                </graphic>
+            </Button>
+            <Button fx:id="ProduitButton" onAction="#goToProduitCrud" maxWidth="250.0"
+                    style="-fx-background-color: #2c3e50; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10 20; -fx-border-radius: 5; -fx-effect: innershadow(gaussian, black, 0.6, 0.0, 5.0, 0.0);"
+                    styleClass="side-btn">
+                <graphic>
+                    <HBox spacing="15">
+                        <ImageView fx:id="productIcon" fitHeight="20" fitWidth="20" pickOnBounds="true" preserveRatio="true" />
+                        <Label style="-fx-text-fill: white; -fx-font-size: 16px;" text="Produits" />
+                    </HBox>
+                </graphic>
+            </Button>
+            <Button fx:id="UserButton" onAction="#goToUserView" maxWidth="250.0"
+                    style="-fx-background-color: #2c3e50; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10 20; -fx-border-radius: 5; -fx-effect: innershadow(gaussian, black, 0.6, 0.0, 5.0, 0.0);"
+                    styleClass="side-btn">
+                <graphic>
+                    <HBox spacing="15">
+                        <ImageView fx:id="productIcon" fitHeight="20" fitWidth="20" pickOnBounds="true" preserveRatio="true" />
+                        <Label style="-fx-text-fill: white; -fx-font-size: 16px;" text="User" />
+                    </HBox>
+                </graphic>
+            </Button>
+            <Button fx:id="viewParticipationsButton" maxWidth="250.0" onAction="#onViewParticipationsClicked" style="-fx-background-color: #2c3e50; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10 20; -fx-border-radius: 5; -fx-effect: innershadow(gaussian, black, 0.6, 0.0, 5.0, 0.0);" styleClass="side-btn">
+                <graphic>
+                    <HBox spacing="15">
+                        <ImageView fx:id="productIconNn" fitHeight="20" fitWidth="20" pickOnBounds="true" preserveRatio="true" />
+                        <Label style="-fx-text-fill: white; -fx-font-size: 16px;" text="Participation" />
+                    </HBox>
+                </graphic>
+            </Button>
+
+        </VBox>
+    </left>
+
+    <!-- ================= Header ================= -->
+    <top>
+        <HBox prefHeight="60.0" style="-fx-background-color: #2980b9;">
+            <Label text="Dashboard" style="-fx-text-fill: white; -fx-font-size: 24px; -fx-padding: 15 0 0 20;" />
+        </HBox>
+    </top>
+
+    <!-- ================= Produits FlowPane (Main Center Content) ================= -->
+    <center>
+        <FlowPane fx:id="flowPane" hgap="10" vgap="10" style="-fx-padding: 10; -fx-background-color: #f0f0f0;" />
+    </center>
+
+    <!-- ================= Bottom Buttons ================= -->
+    <bottom>
+        <HBox spacing="10">
+            <padding>
+                <Insets bottom="10" left="10" right="10" top="10" />
+            </padding>
+            <children>
+                <Button fx:id="btnAdd" onAction="#handleAdd"
+                        style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-min-width: 100px;"
+                        text="Add Product" />
+                <Button fx:id="btnEdit" onAction="#handleEdit"
+                        style="-fx-background-color: #FF9800; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-min-width: 100px;"
+                        text="Edit" />
+            </children>
+        </HBox>
+    </bottom>
+</BorderPane>

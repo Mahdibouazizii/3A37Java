@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            prefHeight="600.0" prefWidth="900.0"
+            style="-fx-background-color: #f7f7f7; -fx-font-family: 'Segoe UI', sans-serif;">
+
+    <!-- Sidebar -->
+    <VBox layoutX="0.0" layoutY="0.0" prefWidth="250.0" prefHeight="600.0"
+          style="-fx-background-color: #34495e;" spacing="20" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0">
+        <!-- Menu Title -->
+        <Label text="Menu" style="-fx-text-fill: white; -fx-font-size: 24px; -fx-font-weight: bold; -fx-padding: 20 0 0 20;" />
+
+        <!-- Buttons with Icons -->
+        <Button styleClass="side-btn" maxWidth="250.0" style="-fx-background-color: #2c3e50; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10 20; -fx-border-radius: 5; -fx-effect: innershadow(gaussian, black, 0.6, 0.0, 5.0, 0.0); -fx-transition: all 0.2s ease-in-out;">
+            <graphic>
+                <HBox spacing="15">
+                    <ImageView fx:id="homeIcon" fitHeight="20" fitWidth="20" pickOnBounds="true" preserveRatio="true" />
+                    <Label text="Accueil" style="-fx-text-fill: white; -fx-font-size: 16px;" />
+                </HBox>
+            </graphic>
+        </Button>
+        <Button styleClass="side-btn" maxWidth="250.0" style="-fx-background-color: #2c3e50; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10 20; -fx-border-radius: 5; -fx-effect: innershadow(gaussian, black, 0.6, 0.0, 5.0, 0.0);">
+            <graphic>
+                <HBox spacing="15">
+                    <ImageView fx:id="productIcon" fitHeight="20" fitWidth="20" pickOnBounds="true" preserveRatio="true" />
+                    <Label text="Produits" style="-fx-text-fill: white; -fx-font-size: 16px;" />
+                </HBox>
+            </graphic>
+        </Button>
+        <Button styleClass="side-btn" maxWidth="250.0" style="-fx-background-color: #2c3e50; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10 20; -fx-border-radius: 5; -fx-effect: innershadow(gaussian, black, 0.6, 0.0, 5.0, 0.0);">
+            <graphic>
+                <HBox spacing="15">
+                    <ImageView fx:id="orderIcon" fitHeight="20" fitWidth="20" pickOnBounds="true" preserveRatio="true" />
+                    <Label text="Commandes" style="-fx-text-fill: white; -fx-font-size: 16px;" />
+                </HBox>
+            </graphic>
+        </Button>
+        <Button styleClass="side-btn" maxWidth="250.0" style="-fx-background-color: #2c3e50; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10 20; -fx-border-radius: 5; -fx-effect: innershadow(gaussian, black, 0.6, 0.0, 5.0, 0.0);">
+            <graphic>
+                <HBox spacing="15">
+                    <ImageView fx:id="userIcon" fitHeight="20" fitWidth="20" pickOnBounds="true" preserveRatio="true" />
+                    <Label text="Utilisateurs" style="-fx-text-fill: white; -fx-font-size: 16px;" />
+                </HBox>
+            </graphic>
+        </Button>
+        <Button styleClass="side-btn" maxWidth="250.0" style="-fx-background-color: #2c3e50; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10 20; -fx-border-radius: 5; -fx-effect: innershadow(gaussian, black, 0.6, 0.0, 5.0, 0.0);">
+            <graphic>
+                <HBox spacing="15">
+                    <ImageView fx:id="logoutIcon" fitHeight="20" fitWidth="20" pickOnBounds="true" preserveRatio="true" />
+                    <Label text="Déconnexion" style="-fx-text-fill: white; -fx-font-size: 16px;" />
+                </HBox>
+            </graphic>
+        </Button>
+    </VBox>
+
+    <!-- Header -->
+    <HBox layoutX="250.0" layoutY="0.0" prefHeight="60.0" prefWidth="650.0"
+          style="-fx-background-color: #2980b9;" AnchorPane.leftAnchor="250.0" AnchorPane.topAnchor="0.0" AnchorPane.rightAnchor="0.0">
+        <Label text="Dashboard" style="-fx-text-fill: white; -fx-font-size: 24px; -fx-padding: 15 0 0 20;" />
+    </HBox>
+
+    <!-- Main Content -->
+    <Pane layoutX="250.0" layoutY="60.0" prefWidth="650.0" prefHeight="540.0"
+          AnchorPane.leftAnchor="250.0" AnchorPane.topAnchor="60.0" AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0">
+        <Label text="Bienvenue sur le Dashboard !" layoutX="30.0" layoutY="30.0" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
+    </Pane>
+
+</AnchorPane>

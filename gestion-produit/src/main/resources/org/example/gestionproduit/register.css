@@ -1,0 +1,33 @@
+/* Styling for Register Page */
+.input-field {
+    -fx-pref-width: 300px;
+    -fx-padding: 10;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-border-color: #ccc;
+    -fx-border-width: 1;
+    -fx-font-size: 14px;
+}
+
+.btn-register {
+    -fx-pref-width: 300px;
+    -fx-padding: 10;
+    -fx-background-color: #2ecc71;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+}
+
+.btn-register:hover {
+    -fx-background-color: #27ae60;
+}
+
+HBox {
+    -fx-spacing: 5;
+    -fx-alignment: CENTER;
+}
+
+AnchorPane {
+    -fx-background-color: #f4f6f9;
+}

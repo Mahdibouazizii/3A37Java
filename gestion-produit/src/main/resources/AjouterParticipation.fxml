@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="350" prefWidth="400" style="-fx-background-color: #f7f7f7;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="org.example.gestionproduit.controller.AjouterParticipationController">
+   <MenuBar layoutX="-524.0" layoutY="12.0" prefHeight="38.0" prefWidth="1083.0" style="-fx-background-color: linear-gradient(to right, #2980b9, #3498db);">
+      <menus>
+         <Menu style="-fx-font-size: 16px; -fx-text-fill: white; -fx-font-weight: bold;" text="Paramètres">
+            <items>
+               <MenuItem style="-fx-font-size: 14px; -fx-text-fill: #2c3e50;" text="Modifier le Profil" />
+               <MenuItem style="-fx-font-size: 14px; -fx-text-fill: #2c3e50;" text="Changer le Mot de Passe" />
+            </items>
+         </Menu>
+      </menus>
+   </MenuBar>
+
+    <VBox alignment="CENTER" spacing="20" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+
+        <!-- Title -->
+        <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Ajouter une Participation" />
+
+        <!-- Form Fields -->
+        <GridPane hgap="15" style="-fx-background-color: #ffffff; -fx-padding: 20px; -fx-border-radius: 10px; -fx-effect: dropshadow(gaussian, #bdc3c7, 10, 0, 0, 2);" vgap="15">
+            <padding>
+                <Insets bottom="10" left="10" right="10" top="10" />
+            </padding>
+
+            <Label style="-fx-font-size: 14px; -fx-text-fill: #34495e;" text="Âge :" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <TextField fx:id="ageField" promptText="Entrez votre âge" style="-fx-background-color: #ffffff; -fx-border-radius: 5px; -fx-font-size: 14px; -fx-padding: 8px;" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+            <Label style="-fx-font-size: 14px; -fx-text-fill: #34495e;" text="Nombre de places :" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+            <TextField fx:id="nbrPlaceField" promptText="Nombre de places à réserver" style="-fx-background-color: #ffffff; -fx-border-radius: 5px; -fx-font-size: 14px; -fx-padding: 8px;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+            <Label style="-fx-font-size: 14px; -fx-text-fill: #34495e;" text="Statut :" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+            <ComboBox fx:id="statutComboBox" style="-fx-background-color: #ffffff; -fx-border-radius: 5px; -fx-font-size: 14px; -fx-padding: 8px;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+         <columnConstraints>
+            <ColumnConstraints />
+            <ColumnConstraints />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+         </rowConstraints>
+        </GridPane>
+
+        <!-- Buttons -->
+        <HBox alignment="CENTER" spacing="15">
+            <Button fx:id="validerButton" onAction="#onValiderClicked" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 5px; -fx-padding: 10px 20px;" text="Valider" />
+            <Button fx:id="annulerButton" onAction="#onAnnulerClicked" style="-fx-background-color: #f44336; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 5px; -fx-padding: 10px 20px;" text="Annuler" />
+        </HBox>
+    </VBox>
+   <MenuBar layoutX="-524.0" layoutY="-12.0" prefHeight="38.0" prefWidth="1083.0" style="-fx-background-color: linear-gradient(to right, #2980b9, #3498db);">
+      <menus>
+         <Menu style="-fx-font-size: 16px; -fx-text-fill: white; -fx-font-weight: bold;" text="Paramètres">
+            <items>
+               <MenuItem style="-fx-font-size: 14px; -fx-text-fill: #2c3e50;" text="Modifier le Profil" />
+               <MenuItem style="-fx-font-size: 14px; -fx-text-fill: #2c3e50;" text="Changer le Mot de Passe" />
+            </items>
+         </Menu>
+      </menus>
+   </MenuBar>
+</AnchorPane>

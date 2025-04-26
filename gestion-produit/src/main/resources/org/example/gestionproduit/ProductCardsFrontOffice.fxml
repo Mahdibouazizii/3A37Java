@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.gestionproduit.controller.ProductCardsFrontOfficeController">
+
+    <!-- Top: Buttons for Reclamations and other actions -->
+    <top>
+        <MenuBar prefWidth="940.0" style="-fx-background-color: linear-gradient(to right, #2980b9, #3498db);" BorderPane.alignment="CENTER">
+            <menus>
+                <Menu style="-fx-font-size: 16px; -fx-text-fill: white; -fx-font-weight: bold;" text="Événements">
+                    <MenuItem text="Liste des Événements" onAction="#goToAfficherEvent" />
+                </Menu>
+                <Menu style="-fx-font-size: 16px; -fx-text-fill: white; -fx-font-weight: bold;" text="Reclamation">
+                    <MenuItem text="Add Reclamation" onAction="#handleAddReclamation" />
+                    <MenuItem text="Liste des Reclamations" onAction="#handleViewReclamations" />
+                </Menu>
+                <Menu style="-fx-font-size: 16px; -fx-text-fill: white; -fx-font-weight: bold;" text="Produit">
+                    <MenuItem text="Liste des Produits" onAction="#handleViewProduit" />
+                </Menu>
+                <Menu style="-fx-font-size: 16px; -fx-text-fill: white; -fx-font-weight: bold;" text="Paramètres">
+                    <items>
+                        <MenuItem style="-fx-font-size: 14px; -fx-text-fill: #2c3e50;" text="Déconnexion " />
+                        <MenuItem style="-fx-font-size: 14px; -fx-text-fill: #2c3e50;" text="Changer le Mot de Passe" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+    </top>
+
+    <!-- Left: Product Cards -->
+    <center>
+        <ScrollPane fitToHeight="true" fitToWidth="true">
+            <content>
+                <FlowPane fx:id="flowPane" hgap="10" prefWrapLength="800" style="-fx-padding: 10;" vgap="10" />
+            </content>
+        </ScrollPane>
+    </center>
+
+    <!-- Right: Cart, Total, and Buttons -->
+    <right>
+        <VBox spacing="10" style="-fx-padding: 10;">
+            <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Shopping Cart" />
+
+            <ListView fx:id="cartListView" prefHeight="300" prefWidth="300" />
+
+            <Label fx:id="totalPriceLabel" style="-fx-font-size: 14px; -fx-text-fill: #27ae60;" text="Total: 0.00" />
+
+            <Button fx:id="btnConfirmPurchase" onAction="#handleConfirmPurchase" style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-background-radius: 5;" text="Confirm Purchase" />
+
+            <Button fx:id="btnGenerateFacture" onAction="#handleGenerateCartFacture" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-background-radius: 5;" text="Générer Facture" />
+
+            <!-- Update total button -->
+            <Button fx:id="btnUpdateTotal" onAction="#handleUpdateFactureTotal" style="-fx-background-color: #f39c12; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-background-radius: 5;" text="Update Total" />
+        </VBox>
+    </right>
+
+
+</BorderPane>

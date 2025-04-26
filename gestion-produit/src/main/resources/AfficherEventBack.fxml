@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<AnchorPane prefHeight="683.0" prefWidth="1045.0" style="-fx-background-color: #ecf0f1;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.gestionproduit.controller.EventController">
+    <children>
+
+        <!-- Sidebar -->
+        <VBox layoutX="0.0" layoutY="0.0" prefHeight="600.0" prefWidth="250.0" spacing="20" style="-fx-background-color: #34495e;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <Label style="-fx-text-fill: white; -fx-font-size: 24px; -fx-font-weight: bold; -fx-padding: 20 0 0 20;" text="Menu" />
+
+            <!-- Buttons with Icons -->
+            <Button maxWidth="250.0" style="-fx-background-color: #2c3e50; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10 20;" styleClass="side-btn">
+                <graphic>
+                    <HBox spacing="15">
+                        <ImageView fx:id="homeIcon" fitHeight="20" fitWidth="20" pickOnBounds="true" preserveRatio="true" />
+                        <Label style="-fx-text-fill: white; -fx-font-size: 16px;" text="Accueil" />
+                    </HBox>
+                </graphic>
+            </Button>
+            <Button fx:id="produitsButton" maxWidth="250.0" onAction="#goToAfficherEventBack" style="-fx-background-color: #2c3e50; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10 20;" styleClass="side-btn">
+                <graphic>
+                    <HBox spacing="15">
+                        <ImageView fx:id="productIcon" fitHeight="20" fitWidth="20" pickOnBounds="true" preserveRatio="true" />
+                        <Label style="-fx-text-fill: white; -fx-font-size: 16px;" text="Event" />
+                    </HBox>
+                </graphic>
+            </Button>
+            <Button fx:id="ProduitButton" maxWidth="250.0" onAction="#goToProduitCrud" style="-fx-background-color: #2c3e50; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10 20;" styleClass="side-btn">
+                <graphic>
+                    <HBox spacing="15">
+                        <ImageView fx:id="productIconnn" fitHeight="20" fitWidth="20" pickOnBounds="true" preserveRatio="true" />
+                        <Label style="-fx-text-fill: white; -fx-font-size: 16px;" text="Produits" />
+                    </HBox>
+                </graphic>
+            </Button>
+            <Button fx:id="UserButton" maxWidth="250.0" onAction="#goToUserView" style="-fx-background-color: #2c3e50; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10 20;" styleClass="side-btn">
+                <graphic>
+                    <HBox spacing="15">
+                        <ImageView fx:id="productIconN" fitHeight="20" fitWidth="20" pickOnBounds="true" preserveRatio="true" />
+                        <Label style="-fx-text-fill: white; -fx-font-size: 16px;" text="User" />
+                    </HBox>
+                </graphic>
+            </Button>
+            <Button fx:id="viewParticipationsButton" maxWidth="250.0" onAction="#onViewParticipationsClicked" style="-fx-background-color: #2c3e50; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10 20;" styleClass="side-btn">
+                <graphic>
+                    <HBox spacing="15">
+                        <ImageView fx:id="productIconNn" fitHeight="20" fitWidth="20" pickOnBounds="true" preserveRatio="true" />
+                        <Label style="-fx-text-fill: white; -fx-font-size: 16px;" text="Participation" />
+                    </HBox>
+                </graphic>
+            </Button>
+        </VBox>
+
+        <!-- Header -->
+        <HBox layoutX="250.0" layoutY="0.0" prefHeight="60.0" prefWidth="650.0" style="-fx-background-color: #2980b9;" AnchorPane.leftAnchor="250.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <Label style="-fx-text-fill: white; -fx-font-size: 24px; -fx-padding: 15 0 0 20;" text="Dashboard" />
+        </HBox>
+
+        <!-- Main Content -->
+        <Pane layoutX="250.0" layoutY="60.0" prefHeight="540.0" prefWidth="678.0" AnchorPane.bottomAnchor="-60.0" AnchorPane.leftAnchor="250.0" AnchorPane.rightAnchor="-67.0" AnchorPane.topAnchor="60.0">
+            <Text layoutX="20.0" layoutY="40.0" style="-fx-font-weight: bold; -fx-fill: #2c3e50;" text="📅 Liste des Événements">
+                <font>
+                    <Font size="24.0" />
+                </font>
+                <effect>
+                    <DropShadow blurType="GAUSSIAN" color="rgba(0, 0, 0, 0.2)" offsetX="2.0" offsetY="2.0" />
+                </effect>
+            </Text>
+            <TextField fx:id="searchField" layoutX="30.0" layoutY="87.0" prefHeight="47.0" prefWidth="704.0" promptText="Rechercher un événement..." style="-fx-font-size: 16px; -fx-background-color: #ecf0f1; -fx-border-color: #bdc3c7; -fx-border-radius: 10; -fx-padding: 10 15 10 15;" />
+
+            <ScrollPane fx:id="scrollPane" layoutX="20.0" layoutY="145.0" prefHeight="388.0" prefWidth="714.0" style="-fx-background-color: transparent; -fx-border-color: #bdc3c7; -fx-border-width: 1; -fx-background-radius: 10; -fx-padding: 10;">
+                <content>
+                    <VBox fx:id="eventContainer" prefHeight="358.0" prefWidth="691.0" spacing="15.0" style="-fx-background-color: transparent;">
+                        <padding>
+                            <Insets bottom="10" left="10" right="10" top="10" />
+                        </padding>
+                    </VBox>
+                </content>
+            </ScrollPane>
+
+            <!-- Button -->
+            <Button fx:id="addButton" layoutX="84.0" layoutY="549.0" onAction="#onAddEventClicked" prefHeight="32.0" prefWidth="258.0" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold; -fx-background-radius: 6; -fx-padding: 12 20; -fx-effect: dropshadow(gaussian, #27ae60, 8, 0.3, 0, 0);" text="➕ Créer un événement">
+                <effect>
+                    <DropShadow color="#27ae60" offsetX="0" offsetY="4" radius="6" />
+                </effect>
+            </Button>
+        </Pane>
+
+    </children>
+</AnchorPane>

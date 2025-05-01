@@ -125,6 +125,25 @@ public class ServiceParticipation {
         }
     }
 
+    public boolean isUserAlreadyParticipating(int userId, int eventId) {
+        // Code pour vérifier si une participation existe déjà pour cet utilisateur et cet événement
+        // Par exemple, une requête SQL : "SELECT COUNT(*) FROM Participation WHERE iduser_id = ? AND idevenement_id = ?"
+        String query = "SELECT COUNT(*) FROM participation WHERE iduser_id = ? AND idevenement_id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) { // Utilisation de la connexion déjà existante
+            statement.setInt(1, userId);
+            statement.setInt(2, eventId);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt(1) > 0; // Si le compte est > 0, cela signifie que l'utilisateur a déjà participé
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
+
 
 
 }

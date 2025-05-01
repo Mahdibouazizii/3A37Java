@@ -6,10 +6,13 @@ module org.example.gestionproduit {
     requires java.sql;
     requires spring.security.core;
     requires itextpdf;
+    requires com.google.zxing;  // ZXing core for QR codes
+    requires com.google.zxing.javase;  // ZXing JavaSE for QR code support
+    requires java.net.http;  // This gives access to the HttpClient, HttpRequest, etc.
 
-    // Open the controller package so FXMLLoader can access it reflectively
+    // Open the controller package for FXMLLoader reflection
     opens org.example.gestionproduit.controller to javafx.fxml;
 
-    // Optionally export your main package if needed
+    // Optionally export your main package if needed (for external access)
     exports org.example.gestionproduit;
 }

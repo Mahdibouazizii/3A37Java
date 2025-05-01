@@ -147,4 +147,7 @@ public class ServiceEvent implements IService<event> {
             System.err.println("❌ Erreur lors de la mise à jour des places disponibles : " + e.getMessage());
         }
     }
+
+
+
 }

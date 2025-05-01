@@ -104,6 +104,15 @@ public class AjouterParticipationController {
                 return;
             }
 
+            // Vérification si l'utilisateur a déjà participé à cet événement
+            ServiceParticipation serviceParticipation = new ServiceParticipation();
+                boolean isAlreadyParticipating = serviceParticipation.isUserAlreadyParticipating(currentUserId, selectedEvent.getId());
+
+            if (isAlreadyParticipating) {
+                showAlert(Alert.AlertType.WARNING, "Participation déjà existante", "Vous avez déjà participé à cet événement.");
+                return;
+            }
+
             // Vérification de la disponibilité des places
             if (nbrPlace > selectedEvent.getNbrplacetottale()) {
                 showAlert(Alert.AlertType.WARNING, "Places insuffisantes",
@@ -120,8 +129,7 @@ public class AjouterParticipationController {
             participation.setStatut(statut);
 
             // Ajout de la participation
-            ServiceParticipation service = new ServiceParticipation();
-            service.ajouter(participation);
+            serviceParticipation.ajouter(participation);
 
             // Décrémentation des places disponibles de l'événement
             ServiceEvent serviceEvent = new ServiceEvent();
@@ -152,6 +160,7 @@ public class AjouterParticipationController {
             showAlert(Alert.AlertType.ERROR, "Erreur", "Une erreur est survenue : " + e.getMessage());
         }
     }
+
 
 
 

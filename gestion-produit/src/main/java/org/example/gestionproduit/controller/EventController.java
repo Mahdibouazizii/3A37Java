@@ -30,6 +30,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.control.TextField;
+import org.example.gestionproduit.util.BadWordsFilter;
+
 public class EventController {
     // Champs pour AjouterEvent.fxml
     @FXML private DatePicker startDatePicker; // Sélecteur de date de début
@@ -164,6 +166,7 @@ public class EventController {
         LocalDate dateFin = endDatePicker.getValue();
         String nbPlacesText = maxPlaceField.getText();
         StringBuilder erreurs = new StringBuilder();
+
         // Vérification des champs
         if (nom == null || nom.trim().isEmpty()) {
             erreurs.append("- Le champ Nom est requis.\n");
@@ -171,12 +174,19 @@ public class EventController {
         if (description == null || description.trim().isEmpty()) {
             erreurs.append("- Le champ Description est requis.\n");
         }
+
+        // Vérification des bad words dans le nom et la description
+        if (BadWordsFilter.containsBadWordsInEvent(nom, description)) {
+            erreurs.append("- Le nom ou la description contient des mots inappropriés.\n");
+        }
+
         if (dateDebut == null) {
             erreurs.append("- La Date de début est requise.\n");
         }
         if (dateFin == null) {
             erreurs.append("- La Date de fin est requise.\n");
         }
+
         // Vérification de la condition "Date Début < Date Fin"
         if (dateDebut != null && dateFin != null && dateDebut.isAfter(dateFin)) {
             erreurs.append("- La Date de début doit être avant la Date de fin.\n");
@@ -185,6 +195,7 @@ public class EventController {
         if (dateDebut != null && dateDebut.isBefore(LocalDate.now())) {
             erreurs.append("- La Date de début doit être dans le futur.\n");
         }
+
         int nbPlaces = -1;
         try {
             nbPlaces = Integer.parseInt(nbPlacesText);
@@ -194,6 +205,7 @@ public class EventController {
         } catch (NumberFormatException e) {
             erreurs.append("- Le champ Nombre de places doit contenir un nombre valide.\n");
         }
+
         // Affichage des erreurs s'il y en a
         if (erreurs.length() > 0) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -203,19 +215,23 @@ public class EventController {
             alert.showAndWait();
             return;
         }
+
         // Traitement si tout est correct
         Date sqlDateDebut = Date.valueOf(dateDebut);
         Date sqlDateFin = Date.valueOf(dateFin);
         String image = (selectedImagePath != null) ? selectedImagePath : "default.jpg";
         event ev = new event(nom, description, sqlDateDebut, sqlDateFin, image, nbPlaces);
+
         try {
             ServiceEvent service = new ServiceEvent();
             service.ajouter(ev);
             System.out.println("✅ Événement ajouté avec succès !");
             clearForm();
+
             // Fermer la fenêtre actuelle
             Stage currentStage = (Stage) createButton.getScene().getWindow();
             currentStage.close();
+
             // Ouvrir AfficherEventBack.fxml
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/AfficherEventBack.fxml"));
             Parent root = loader.load();
@@ -232,6 +248,7 @@ public class EventController {
             e.printStackTrace();
         }
     }
+
     private void clearForm() {
         // Réinitialise tous les champs du formulaire
         nameField.clear();
@@ -531,6 +548,7 @@ public class EventController {
             System.out.println("Erreur lors du chargement de la vue des participations.");
         }
     }
+
 
 
 

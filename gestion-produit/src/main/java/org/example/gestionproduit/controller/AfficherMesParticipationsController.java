@@ -56,9 +56,11 @@ public class AfficherMesParticipationsController {
                             "-fx-background-radius: 5;"
             );
 
+            // Adding the participation details
             Label ageLabel = new Label("Âge: " + p.getAge());
             Label placesLabel = new Label("Nombre de places: " + p.getNbrplace());
             Label statutLabel = new Label("Statut: " + p.getStatut());
+            Label eventIdLabel = new Label("ID Événement: " + p.getIdevenement_id()); // Affichage de l'ID de l'événement
 
             Button supprimerBtn = new Button("🗑 Supprimer");
             supprimerBtn.setStyle(
@@ -89,10 +91,12 @@ public class AfficherMesParticipationsController {
             HBox actionRow = new HBox(supprimerBtn);
             actionRow.setPadding(new Insets(5, 0, 0, 0));
 
-            card.getChildren().addAll(ageLabel, placesLabel, statutLabel, actionRow);
+            // Adding all labels to the card
+            card.getChildren().addAll(ageLabel, placesLabel, statutLabel, eventIdLabel, actionRow);
             participationContainer.getChildren().add(card);
         }
     }
+
 
     private void showError(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);

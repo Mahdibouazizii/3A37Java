@@ -10,6 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.layout.HBox?>
 <AnchorPane prefHeight="568.0" prefWidth="568.0" style="-fx-background-color: #f4f7fa;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.gestionproduit.controller.InfoEventControllerFront">
 
     <children>
@@ -32,8 +33,13 @@
             <Label fx:id="heurFinLabel" style="-fx-font-size: 14px; -fx-text-fill: #3498db;" />
             <Label fx:id="placeLabel" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #e67e22;" />
 
+            <!-- QR Code for the event -->
+            <HBox spacing="20" alignment="CENTER">
+                <ImageView fx:id="qrCodeImageView" fitHeight="200" fitWidth="200" />
+            </HBox>
             <!-- Add Participation Button -->
             <Button fx:id="addButton" layoutX="340.0" layoutY="465.0" onAction="#onAddParticipationClicked" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8px; -fx-padding: 10px 20px; -fx-font-size: 14px; -fx-hover-effect: brighten 10%;" text="➕ Créer une Participation" />
+            <Button text="Traduire" onAction="#handleTranslateDescription" />
 
         </VBox>
       <MenuBar layoutX="-338.0" prefWidth="940.0" style="-fx-background-color: linear-gradient(to right, #2980b9, #3498db);">

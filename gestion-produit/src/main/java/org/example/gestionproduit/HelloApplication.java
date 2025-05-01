@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/gestionproduit/UserView.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/gestionproduit/login.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root, 900, 600); // ✅ Match AnchorPane size (600x400)
 

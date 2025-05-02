@@ -4,39 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="569d2994-d52f-4412-af2f-b2a887f2e2a9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mvnw" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mvnw.cmd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/green/green/Controller/AfficherMesParticipationsController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/green/green/Controller/AjouterParticipationController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/green/green/Controller/EventController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/green/green/Controller/InfoEventController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/green/green/Controller/InfoEventControllerFront.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/green/green/Controller/UpdateEventController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/green/green/Entity/Participation.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/green/green/outils/MyDatabase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/green/green/services/IService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/green/green/services/ServiceEvent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/green/green/services/ServiceParticipation.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/green/green/tests/MainApp.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/green/green/tests/MainAppp.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/AfficherEvent.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/AfficherEventBack.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/AfficherMesParticipations.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/AjouterEvent.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/AjouterParticipation.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/InfoEvent.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/InfoEventFront.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/UpdateEvent.fxml" afterDir="false" />
+    <list default="true" id="db1f1a3d-698d-410b-98e6-f3bf2832dc90" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/gestionproduit/util/FacturePDFGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/gestionproduit/util/FacturePDFGenerator.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,172 +16,82 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JavaScript File" />
-        <option value="Interface" />
-        <option value="Class" />
+        <option value="CSS File" />
+        <option value="Kotlin Class" />
         <option value="FxmlFile" />
+        <option value="Class" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="MavenImportPreferences">
-    <option name="generalSettings">
-      <MavenGeneralSettings>
-        <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
-      </MavenGeneralSettings>
-    </option>
-  </component>
   <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 0
+  &quot;associatedIndex&quot;: 5
 }</component>
-  <component name="ProjectId" id="2vZoYHm7lOzmMNgqz37hxv6y9x6" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectId" id="2vMXVmfPZ3BjDJVs7Ykh4p1k6W6" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
-    &quot;Application.MainApp.executor&quot;: &quot;Run&quot;,
-    &quot;Application.MainAppp.executor&quot;: &quot;Run&quot;,
-    &quot;Application.MainFx.executor&quot;: &quot;Run&quot;,
-    &quot;Application.green.green.tests.Main.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/mahdi/IdeaProjects/GestionBlogJava-main/pom.xml&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.HelloApplication.executor": "Run",
+    "Application.Main.executor": "Run",
+    "Application.Unnamed.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "com.codeium.enabled": "true",
+    "git-widget-placeholder": "ProduitJava",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Asus/Desktop/gestion-produit",
+    "list.type.of.created.stylesheet": "CSS",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\mahdi\IdeaProjects\green\src\main\resources" />
-      <recent name="C:\Users\mahdi\IdeaProjects\green\src\main\resources\green\green" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\mahdi\IdeaProjects\green\src\main\resources" />
+      <recent name="C:\Users\soufi\OneDrive\Bureau\heni\gestion-produit\src\main\resources\org\example\gestionproduit" />
+      <recent name="C:\Users\soufi\OneDrive\Bureau\heni\gestion-produit\src\main\resources" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.MainApp">
-    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="green.green.Main" />
-      <module name="green" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="green.green.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
+  <component name="RunManager">
+    <configuration name="Unnamed" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.example.gestionproduit.HelloApplication" />
+      <module name="gestion-produit" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MainApp" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="green.green.tests.MainApp" />
-      <module name="green" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="green.green.tests.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="MainAppp" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="green.green.tests.MainAppp" />
-      <module name="green" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="green.green.tests.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="MainFx" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="green.green.tests.MainFx" />
-      <module name="green" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="green.green.tests.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="green.green.tests.Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="green.green.tests.Main" />
-      <module name="green" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="green.green.tests.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Application.MainApp" />
-        <item itemvalue="Application.MainAppp" />
-        <item itemvalue="Application.green.green.tests.Main" />
-        <item itemvalue="Application.MainFx" />
-        <item itemvalue="Application.Main" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-28b599e66164-intellij.indexing.shared.core-IU-242.22855.74" />
-        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-IU-242.22855.74" />
+        <option value="bundled-jdk-9823dce3aa75-28b599e66164-intellij.indexing.shared.core-IU-242.23339.11" />
+        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-IU-242.23339.11" />
       </set>
     </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="569d2994-d52f-4412-af2f-b2a887f2e2a9" name="Changes" comment="" />
-      <created>1744362005334</created>
+      <changelist id="db1f1a3d-698d-410b-98e6-f3bf2832dc90" name="Changes" comment="" />
+      <created>1743955944744</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1744362005334</updated>
-      <workItem from="1744362006430" duration="7904000" />
-      <workItem from="1744473307244" duration="15022000" />
-      <workItem from="1744504494270" duration="10522000" />
-      <workItem from="1744562875575" duration="113000" />
-      <workItem from="1744568678839" duration="47000" />
-      <workItem from="1744632666034" duration="1522000" />
-      <workItem from="1744637859236" duration="3378000" />
-      <workItem from="1744664771052" duration="5000" />
-      <workItem from="1744664818927" duration="2000" />
-      <workItem from="1744671733071" duration="16000" />
-      <workItem from="1744672114017" duration="12000" />
-      <workItem from="1744673289817" duration="10000" />
-      <workItem from="1744673357010" duration="677000" />
-      <workItem from="1744674041263" duration="10000" />
-      <workItem from="1744684698870" duration="753000" />
-      <workItem from="1744711092730" duration="8000" />
-      <workItem from="1744750429162" duration="28000" />
-      <workItem from="1744750468581" duration="1734000" />
-      <workItem from="1744752243799" duration="5425000" />
+      <updated>1743955944744</updated>
+      <workItem from="1743955945646" duration="10701000" />
+      <workItem from="1744008782658" duration="24000" />
+      <workItem from="1744292522669" duration="3236000" />
+      <workItem from="1744883880727" duration="23967000" />
+      <workItem from="1744966312941" duration="4252000" />
+      <workItem from="1745527907382" duration="30000" />
     </task>
     <servers />
   </component>

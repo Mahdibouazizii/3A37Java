@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.gestionproduit.controller.CommandeListController">
+    <children>
+        <VBox spacing="10" layoutX="10.0" layoutY="10.0" prefWidth="980" prefHeight="600">
+            <Label text="🧾 Liste des Commandes" style="-fx-font-size: 20px; -fx-font-weight: bold;" />
+            <ScrollPane fitToWidth="true" prefHeight="550">
+                <FlowPane fx:id="cardContainer" hgap="15" vgap="15">
+                    <padding>
+                        <Insets top="10" right="10" bottom="10" left="10" />
+                    </padding>
+                </FlowPane>
+
+            </ScrollPane>
+        </VBox>
+    </children>
+</AnchorPane>

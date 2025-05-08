@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.example.gestionproduit.controller.BackofficeDashboardController">
+
+    <!-- Sidebar -->
+    <left>
+        <VBox spacing="10" style="-fx-background-color: #2c3e50; -fx-padding: 20;">
+            <Button text="👥 Manage Users" onAction="#loadUserView"
+                    style="-fx-text-fill: white; -fx-background-color: transparent;" />
+            <Button text="📦 Manage Products" onAction="#loadProductView"
+                    style="-fx-text-fill: white; -fx-background-color: transparent;" />
+            <Button text="🧾 Manage Orders" onAction="#loadCommandeView"
+                    style="-fx-text-fill: white; -fx-background-color: transparent;" />
+            <Button text="📋 Reclamations" onAction="#loadReclamationList"
+                    style="-fx-background-color: #9b59b6; -fx-text-fill: white; -fx-font-weight: bold;" />
+            <Button text="📋 Event" onAction="#loadEvent"
+                    style="-fx-background-color: #9b59b6; -fx-text-fill: white; -fx-font-weight: bold;" />
+            <Button text="📋 Participation" onAction="#loadParticipation"
+                    style="-fx-background-color: #9b59b6; -fx-text-fill: white; -fx-font-weight: bold;" />
+            <Separator/>
+
+            <!-- NEW: Button to navigate to Front Office -->
+            <Button text="🏠 Go to Front Office" onAction="#handleGoToFrontOffice"
+                    style="-fx-background-color: #1abc9c; -fx-text-fill: white; -fx-font-weight: bold;"/>
+        </VBox>
+    </left>
+
+    <!-- Main content area -->
+    <center>
+        <StackPane fx:id="mainContent" />
+    </center>
+
+
+</BorderPane>

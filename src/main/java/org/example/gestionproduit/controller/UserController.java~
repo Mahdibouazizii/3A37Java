@@ -1,0 +1,338 @@
+package org.example.gestionproduit.controller;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
+import javafx.util.Callback;
+import org.example.gestionproduit.entity.User;
+import org.example.gestionproduit.service.UserService;
+
+import java.io.File;
+
+public class UserController {
+
+    private UserService userService = new UserService();
+
+    @FXML
+    private ListView<User> userListView;
+
+    @FXML
+    private TextField firstNameField;
+    @FXML
+    private TextField lastNameField;
+    @FXML
+    private TextField emailField;
+    @FXML
+    private TextField passwordField;
+    @FXML
+    private TextField addressField;
+    @FXML
+    private TextField profilePictureField;
+    @FXML
+    private TextField roleField;
+    @FXML
+    private TextField isBannedField;
+
+    @FXML
+    private Button addUserButton;
+    @FXML
+    private Button updateUserButton;
+    @FXML
+    private Button deleteUserButton;
+
+    @FXML
+    private Text statusLabel;
+
+    @FXML
+    private VBox userCardContainer;
+
+    // Observable List to bind the ListView
+    private ObservableList<User> users;
+
+    @FXML
+    public void initialize() {
+
+        refreshUserCards();
+    }
+
+    private void refreshUserCards() {
+        userCardContainer.getChildren().clear();
+        for (User user : userService.getAllUsers()) {
+            userCardContainer.getChildren().add(createUserCard(user));
+        }
+    }
+
+    private HBox createUserCard(User user) {
+        HBox card = new HBox(10);
+        card.setPadding(new Insets(10));
+        card.setStyle("-fx-border-color: #ccc; -fx-background-color: #f9f9f9; -fx-border-radius: 5; -fx-background-radius: 5;");
+        card.setPrefWidth(700);
+
+        // 🖼 Profile Picture
+        ImageView profileImageView = new ImageView();
+        profileImageView.setFitHeight(64);
+        profileImageView.setFitWidth(64);
+        profileImageView.setPreserveRatio(true);
+
+        if (user.getProfilePicture() != null && !user.getProfilePicture().isEmpty()) {
+            try {
+                File imageFile = new File(user.getProfilePicture());
+                if (imageFile.exists()) {
+                    Image image = new Image(imageFile.toURI().toString());
+                    profileImageView.setImage(image);
+                } else {
+                    System.out.println("Image file not found: " + user.getProfilePicture());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        // 👤 User Info
+        VBox userInfo = new VBox(5);
+        userInfo.getChildren().addAll(
+                new Label("👤 " + user.getNom() + " " + user.getPrenom()),
+                new Label("📧 " + user.getEmail()),
+                new Label("🏠 " + user.getAdresse()),
+                new Label("🧑‍💼 Role: " + user.getRoles() + " | 🚫 Banned: " + user.isBanned())
+        );
+
+        // ✏️ Edit Button
+        Button editBtn = new Button("✏️ Edit");
+        editBtn.setOnAction(e -> showEditUserDialog(user));
+
+        // 🗑 Delete Button
+        Button deleteBtn = new Button("🗑 Delete");
+        deleteBtn.setOnAction(e -> {
+            userService.deleteUser(user);
+            refreshUserCards();
+        });
+        // 🚫 Ban/Unban Button
+        Button toggleBanBtn = new Button(user.isBanned() ? "✅ Unban" : "🚫 Ban");
+        toggleBanBtn.setOnAction(e -> {
+            boolean newStatus = !user.isBanned();
+            user.setBanned(newStatus);
+            if (userService.updateUser(user)) {
+                refreshUserCards();
+                System.out.println("User " + (newStatus ? "banned" : "unbanned") + " successfully.");
+            } else {
+                System.out.println("Failed to update ban status.");
+            }
+        });
+        // 🔁 Toggle Role Button
+        Button toggleRoleBtn = new Button("🔁 Toggle Role");
+        toggleRoleBtn.setOnAction(e -> toggleUserRole(user));
+
+        // Add buttons to actions VBox
+        VBox actions = new VBox(5, editBtn, deleteBtn, toggleRoleBtn, toggleBanBtn);
+
+        // Combine all in card
+        card.getChildren().addAll(profileImageView, userInfo, actions);
+        return card;
+    }
+
+
+
+    // Add new user
+    @FXML
+    public void addUser() {
+        User newUser = new User(0, firstNameField.getText(), lastNameField.getText(), emailField.getText(),
+                passwordField.getText(), addressField.getText(), profilePictureField.getText(),
+                roleField.getText(), Boolean.parseBoolean(isBannedField.getText()));
+        if (userService.addUser(newUser)) {
+            statusLabel.setText("User added successfully.");
+            users.add(newUser);
+            clearFields();
+        } else {
+            statusLabel.setText("Failed to add user.");
+        }
+    }
+
+    @FXML
+    private void showAddUserDialog() {
+        Dialog<User> dialog = getUserDialog("Add New User", null);
+        dialog.showAndWait().ifPresent(newUser -> {
+            userService.addUser(newUser);
+            refreshUserCards();
+        });
+    }
+
+    private void showEditUserDialog(User existingUser) {
+        Dialog<User> dialog = getUserDialog("Edit User", existingUser);
+        dialog.showAndWait().ifPresent(updatedUser -> {
+            updatedUser.setId(existingUser.getId()); // Ensure ID is preserved
+            if (userService.updateUser(updatedUser)) {
+                refreshUserCards(); // 💥 This is what makes changes visible
+            } else {
+                System.out.println("Update failed.");
+            }
+        });
+    }
+
+
+    private Dialog<User> getUserDialog(String title, User existingUser) {
+        Dialog<User> dialog = new Dialog<>();
+        dialog.setTitle(title);
+
+        // Fields
+        Label fnLabel = new Label("First Name:");
+        TextField fnField = new TextField(existingUser != null ? existingUser.getNom() : "");
+
+        Label lnLabel = new Label("Last Name:");
+        TextField lnField = new TextField(existingUser != null ? existingUser.getPrenom() : "");
+
+        Label emailLabel = new Label("Email:");
+        TextField emailField = new TextField(existingUser != null ? existingUser.getEmail() : "");
+
+        Label addrLabel = new Label("Address:");
+        TextField addrField = new TextField(existingUser != null ? existingUser.getAdresse() : "");
+
+        Label picLabel = new Label("Profile Picture:");
+        TextField picField = new TextField(existingUser != null ? existingUser.getProfilePicture() : "");
+        picField.setEditable(false);
+
+        Button browseBtn = new Button("Browse");
+        browseBtn.setOnAction(e -> {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Choose Profile Picture");
+            fileChooser.getExtensionFilters().addAll(
+                    new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif")
+            );
+            File selectedFile = fileChooser.showOpenDialog(null);
+            if (selectedFile != null) {
+                picField.setText(selectedFile.getAbsolutePath());
+            }
+        });
+
+        Label roleLabel = new Label("Role:");
+        TextField roleField = new TextField(existingUser != null ? existingUser.getRoles() : "");
+
+        Label banLabel = new Label("Banned (true/false):");
+        TextField banField = new TextField(existingUser != null ? String.valueOf(existingUser.isBanned()) : "false");
+
+        // Layout
+        GridPane grid = new GridPane();
+        grid.setHgap(10); grid.setVgap(10);
+        grid.setPadding(new Insets(20, 150, 10, 10));
+        grid.add(fnLabel, 0, 0); grid.add(fnField, 1, 0);
+        grid.add(lnLabel, 0, 1); grid.add(lnField, 1, 1);
+        grid.add(emailLabel, 0, 2); grid.add(emailField, 1, 2);
+        grid.add(addrLabel, 0, 3); grid.add(addrField, 1, 3);
+        grid.add(picLabel, 0, 4); grid.add(new HBox(5, picField, browseBtn), 1, 4);
+        grid.add(roleLabel, 0, 5); grid.add(roleField, 1, 5);
+        grid.add(banLabel, 0, 6); grid.add(banField, 1, 6);
+
+        dialog.getDialogPane().setContent(grid);
+
+        ButtonType okBtn = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(okBtn, ButtonType.CANCEL);
+
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == okBtn) {
+                return new User(
+                        0,
+                        fnField.getText(),
+                        lnField.getText(),
+                        emailField.getText(),
+                        "", // password: not updated here
+                        addrField.getText(),
+                        picField.getText(),
+                        roleField.getText(),
+                        Boolean.parseBoolean(banField.getText())
+                );
+            }
+            return null;
+        });
+
+        return dialog;
+    }
+    private void toggleUserRole(User user) {
+        String newRole = user.getRoles().equalsIgnoreCase("admin") ? "user" : "admin";
+        boolean success = userService.updateUserRole(user.getId(), newRole);
+        if (success) {
+            user.setRoles(newRole); // Update local object too
+            refreshUserCards();
+            System.out.println("Role updated successfully to " + newRole);
+        } else {
+            System.out.println("Failed to update user role.");
+        }
+    }
+
+
+
+
+    // Update existing user
+    @FXML
+    public void updateUser() {
+        User selectedUser = userListView.getSelectionModel().getSelectedItem();
+        if (selectedUser != null) {
+            selectedUser.setNom(firstNameField.getText());
+            selectedUser.setPrenom(lastNameField.getText());
+            selectedUser.setEmail(emailField.getText());
+            selectedUser.setPassword(passwordField.getText());
+            selectedUser.setAdresse(addressField.getText());
+            selectedUser.setProfilePicture(profilePictureField.getText());
+            selectedUser.setRoles(roleField.getText());
+            selectedUser.setBanned(Boolean.parseBoolean(isBannedField.getText()));
+
+            if (userService.updateUser(selectedUser)) {
+                statusLabel.setText("User updated successfully.");
+                userListView.refresh();
+                clearFields();
+            } else {
+                statusLabel.setText("Failed to update user.");
+            }
+        }
+    }
+
+    // Delete user
+    @FXML
+    public void deleteUser() {
+        User selectedUser = userListView.getSelectionModel().getSelectedItem();
+        if (selectedUser != null) {
+            if (userService.deleteUser(selectedUser)) {
+                statusLabel.setText("User deleted successfully.");
+                users.remove(selectedUser);
+            } else {
+                statusLabel.setText("Failed to delete user.");
+            }
+        }
+    }
+
+    // Populate fields when a user is selected
+    @FXML
+    public void populateFields() {
+        User selectedUser = userListView.getSelectionModel().getSelectedItem();
+        if (selectedUser != null) {
+            firstNameField.setText(selectedUser.getNom());
+            lastNameField.setText(selectedUser.getPrenom());
+            emailField.setText(selectedUser.getEmail());
+            passwordField.setText(selectedUser.getPassword());
+            addressField.setText(selectedUser.getAdresse());
+            profilePictureField.setText(selectedUser.getProfilePicture());
+            roleField.setText(selectedUser.getRoles());
+            isBannedField.setText(String.valueOf(selectedUser.isBanned()));
+        }
+    }
+
+    // Clear input fields
+    private void clearFields() {
+        firstNameField.clear();
+        lastNameField.clear();
+        emailField.clear();
+        passwordField.clear();
+        addressField.clear();
+        profilePictureField.clear();
+        roleField.clear();
+        isBannedField.clear();
+    }
+}

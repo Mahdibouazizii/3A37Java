@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="650.0" prefWidth="856.0" style="-fx-background-color: #f8f9fa;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.gestionproduit.controller.EventController">
+    <children>
+        <MenuBar layoutX="-201.0" layoutY="-1.0" prefHeight="38.0" prefWidth="1083.0" style="-fx-background-color: linear-gradient(to right, #2980b9, #3498db);">
+            <menus>
+                <Menu style="-fx-font-size: 16px; -fx-text-fill: white; -fx-font-weight: bold;" text="Paramètres">
+                    <items>
+                        <MenuItem style="-fx-font-size: 14px; -fx-text-fill: #2c3e50;" text="Modifier le Profil" />
+                        <MenuItem style="-fx-font-size: 14px; -fx-text-fill: #2c3e50;" text="Changer le Mot de Passe" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+        <TextField fx:id="searchField" layoutX="86.0" layoutY="-40.0" prefWidth="280.0" promptText="Rechercher..." style="-fx-font-size: 13px; -fx-background-color: #ffffff; -fx-border-color: #bdc3c7; -fx-border-radius: 5px; -fx-padding: 5px;" />
+
+        <!-- Labels with improved alignment and font styling -->
+        <Text layoutX="37.0" layoutY="309.0" style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-fill: #2c3e50;" text="Nom:" />
+        <Text layoutX="37.0" layoutY="371.0" style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-fill: #2c3e50;" text="Description:" />
+        <Text layoutX="38.0" layoutY="432.0" style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-fill: #2c3e50;" text="Date de début:" />
+        <Text layoutX="39.0" layoutY="494.0" style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-fill: #2c3e50;" text="Date de fin:" />
+        <Text layoutX="37.0" layoutY="561.0" style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-fill: #2c3e50;" text="Nombre de place:" />
+
+        <!-- Date Pickers with enhanced style -->
+        <DatePicker fx:id="startDatePicker" layoutX="258.0" layoutY="412.0" prefWidth="280.0" style="-fx-font-size: 13px; -fx-background-color: #ffffff; -fx-border-color: #bdc3c7; -fx-border-radius: 5px;" />
+        <DatePicker fx:id="endDatePicker" layoutX="258.0" layoutY="474.0" prefWidth="280.0" style="-fx-font-size: 13px; -fx-background-color: #ffffff; -fx-border-color: #bdc3c7; -fx-border-radius: 5px;" />
+
+        <!-- Image selection area with padding and modern border radius -->
+        <ImageView fx:id="imageView" fitHeight="211.0" fitWidth="261.0" layoutX="95.0" layoutY="53.0" pickOnBounds="true" preserveRatio="true" />
+        <Button fx:id="chooseImageButton" layoutX="392.0" layoutY="93.0" onAction="#onChooseImageClicked" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-size: 13px; -fx-border-radius: 5px; -fx-padding: 5 10; -fx-cursor: hand;" text="Choisir Image" />
+
+        <!-- Input Fields with consistent padding and style -->
+        <TextField fx:id="nameField" layoutX="258.0" layoutY="288.0" prefWidth="280.0" promptText="Nom..." style="-fx-font-size: 13px; -fx-background-color: #ffffff; -fx-border-color: #bdc3c7; -fx-border-radius: 5px; -fx-padding: 5px;" />
+        <TextField fx:id="descriptionField" layoutX="258.0" layoutY="350.0" prefWidth="280.0" promptText="Description..." style="-fx-font-size: 13px; -fx-background-color: #ffffff; -fx-border-color: #bdc3c7; -fx-border-radius: 5px; -fx-padding: 5px;" />
+        <TextField fx:id="maxPlaceField" layoutX="258.0" layoutY="540.0" prefWidth="280.0" promptText="Nombre max..." style="-fx-font-size: 13px; -fx-background-color: #ffffff; -fx-border-color: #bdc3c7; -fx-border-radius: 5px; -fx-padding: 5px;" />
+
+        <!-- Modernized Create Button with smooth border radius -->
+        <Button fx:id="createButton" layoutX="464.0" layoutY="580.0" mnemonicParsing="false" onAction="#onCreateButtonClicked" style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-size: 14px; -fx-border-radius: 5px; -fx-padding: 10px 20px; -fx-cursor: hand;" text="Créer" />
+    </children>
+</AnchorPane>

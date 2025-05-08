@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="10" alignment="CENTER" xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.gestionproduit.controller.SignaturePadController">
+    <Canvas fx:id="signatureCanvas" width="400" height="200" style="-fx-border-color: black;"/>
+    <HBox spacing="10">
+        <Button fx:id="btnClear" text="Clear"/>
+        <Button fx:id="btnSave" text="Save"/>
+    </HBox>
+</VBox>

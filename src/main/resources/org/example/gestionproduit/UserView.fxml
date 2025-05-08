@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.gestionproduit.controller.UserController">
+    <children>
+        <VBox spacing="10" layoutX="20" layoutY="20" AnchorPane.leftAnchor="20" AnchorPane.topAnchor="20" AnchorPane.rightAnchor="20">
+            <HBox spacing="10">
+                <Text text="User Management" style="-fx-font-size: 20px; -fx-font-weight: bold;" />
+                <Button text="➕ Add User" onAction="#showAddUserDialog"/>
+            </HBox>
+            <ScrollPane fitToWidth="true" prefHeight="600">
+                <VBox fx:id="userCardContainer" spacing="15">
+                    <padding>
+                        <Insets top="10" right="10" bottom="10" left="10"/>
+
+                    </padding>
+                </VBox>
+
+            </ScrollPane>
+        </VBox>
+    </children>
+</AnchorPane>

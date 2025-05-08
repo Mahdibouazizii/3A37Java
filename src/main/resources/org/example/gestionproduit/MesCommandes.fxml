@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+
+<ScrollPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.example.gestionproduit.controller.MesCommandesController"
+            fitToWidth="true" fitToHeight="true">
+    <content>
+        <FlowPane fx:id="flowPane" hgap="10" vgap="10">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+        </FlowPane>
+    </content>
+</ScrollPane>

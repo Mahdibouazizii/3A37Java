@@ -1,19 +1,15 @@
-module green.green {
+module org.example.gestionproduit {
     requires javafx.controls;
     requires javafx.fxml;
-    requires javafx.web;
-
     requires org.controlsfx.controls;
-    requires com.dlsc.formsfx;
-    requires net.synedra.validatorfx;
-    requires org.kordamp.ikonli.javafx;
-    requires org.kordamp.bootstrapfx.core;
-    requires eu.hansolo.tilesfx;
-    requires com.almasb.fxgl.all;
-
+    requires javafx.graphics;
     requires java.sql;
+    requires spring.security.core;
+    requires itextpdf;
 
-    opens green.green.Controller to javafx.fxml;
+    // Open the controller package so FXMLLoader can access it reflectively
+    opens org.example.gestionproduit.controller to javafx.fxml;
 
-    exports green.green.tests;
+    // Optionally export your main package if needed
+    exports org.example.gestionproduit;
 }

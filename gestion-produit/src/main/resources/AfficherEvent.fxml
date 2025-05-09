@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.Label?>
+
+<BorderPane prefHeight="720.0" prefWidth="940.0" style="-fx-background-color: #ecf0f1;"
+            xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.example.gestionproduit.controller.EventController">
+
+    <top>
+        <HBox spacing="20" alignment="CENTER_LEFT"
+              style="-fx-background-color: #2c3e50; -fx-padding: 15;">
+            <children>
+                <Label text="🛍️ Produits" style="-fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold;" />
+                <Region fx:id="spacer" HBox.hgrow="ALWAYS"/>
+                <Button fx:id="btnViewProduit" text="Produit" onAction="#handleProduit"
+                        style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 14px;
+                               -fx-border-color: white; -fx-border-radius: 4; -fx-padding: 5 10;"/>
+                <Button fx:id="btnViewEvent" text="Event" onAction="#handleEvent"
+                        style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 14px;
+                               -fx-border-color: white; -fx-border-radius: 4; -fx-padding: 5 10;"/>
+                <Button fx:id="btnAddReclamation" text="Ajouter Réclamation" onAction="#handleAddReclamation"
+                        style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 14px;
+                               -fx-border-color: white; -fx-border-radius: 4; -fx-padding: 5 10;"/>
+                <Button fx:id="btnViewReclamations" text="Mes Réclamations" onAction="#handleViewReclamations"
+                        style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 14px;
+                               -fx-border-color: white; -fx-border-radius: 4; -fx-padding: 5 10;"/>
+                <Button text="Mes Commandes" onAction="#handleMesCommandes"
+                        style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 14px;
+                               -fx-border-color: white; -fx-border-radius: 4; -fx-padding: 5 10;"/>
+                <Button fx:id="btnGoToAdmin" text="⚙️ Admin" onAction="#handleGoToAdmin"
+                        style="-fx-background-color: #1abc9c; -fx-text-fill: white; -fx-font-size: 14px;
+                               -fx-font-weight: bold; -fx-background-radius: 4;"/>
+                <Button fx:id="btnLogout" text="🔓 Logout" onAction="#handleLogout"
+                        style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-size: 14px;
+               -fx-font-weight: bold; -fx-background-radius: 4;"/>
+
+            </children>
+        </HBox>
+    </top>
+    <!-- Main content in center -->
+    <center>
+        <VBox spacing="20" style="-fx-padding: 20;">
+            <children>
+                <Text style="-fx-font-weight: bold; -fx-fill: #2c3e50;" text="📅 Liste des Événements">
+                    <font>
+                        <Font size="28.0" />
+                    </font>
+                    <effect>
+                        <DropShadow blurType="GAUSSIAN" color="rgba(0, 0, 0, 0.3)" offsetX="3.0" offsetY="3.0" />
+                    </effect>
+                </Text>
+
+                <TextField fx:id="searchField" promptText="Rechercher un événement..."
+                           style="-fx-font-size: 16px; -fx-background-color: #ecf0f1;
+                                  -fx-border-color: #bdc3c7; -fx-border-radius: 10; -fx-padding: 10 15 10 15;"
+                           prefWidth="880.0" />
+
+                <ScrollPane fx:id="scrollPane" prefHeight="500.0" prefWidth="880.0"
+                            style="-fx-background-color: transparent; -fx-border-color: #bdc3c7;
+                                   -fx-border-width: 1; -fx-background-radius: 10; -fx-padding: 10;">
+                    <content>
+                        <VBox fx:id="eventContainer" spacing="25.0" prefHeight="550.0" prefWidth="860.0"
+                              style="-fx-background-color: transparent;">
+                            <padding>
+                                <Insets bottom="20" left="15" right="15" top="20" />
+                            </padding>
+                        </VBox>
+                    </content>
+                </ScrollPane>
+
+                <Button fx:id="mesParticipationsButton" onAction="#onMesParticipationsClicked"
+                        text="👤 Mes Participations"
+                        style="-fx-background-color: #8e44ad; -fx-text-fill: white; -fx-font-size: 16px;
+                               -fx-font-weight: bold; -fx-background-radius: 10; -fx-padding: 14 30 14 30;
+                               -fx-effect: dropshadow(gaussian, #8e44ad, 12, 0.3, 0, 0);">
+                    <effect>
+                        <DropShadow color="#8e44ad" offsetX="0" offsetY="4" radius="6" />
+                    </effect>
+                </Button>
+            </children>
+        </VBox>
+    </center>
+</BorderPane>

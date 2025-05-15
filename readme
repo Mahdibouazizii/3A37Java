@@ -1,0 +1,19 @@
+# Gestion de Produits - Projet PIDEV
+
+Ce projet contient deux applications :
+- Une application **web** en Symfony pour gérer les produits
+- Une application **Java** pour gérer les feedbacks
+
+## Technologies utilisées
+- Java 
+- Symfony 6
+- MySQL
+- API REST
+-artificial intelligence
+## Installation
+1. Cloner le dépôt
+2. Lancer la base de données
+3. Démarrer Symfony et Java
+
+## Auteurs
+Heni slejmi

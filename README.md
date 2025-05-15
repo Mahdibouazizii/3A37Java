@@ -27,7 +27,7 @@ This is the desktop frontend for the GreenTech project built with JavaFX. It all
 
 ### 2. Clone the repo
 ```bash
-git clone https://github.com/your-org/greentech-javafx.git
+git clone https://github.com/Mahdibouazizii/3A37Java.git
 cd greentech-javafx
 ```
 
@@ -36,7 +36,7 @@ Edit the database credentials in your `DBConnection.java` or equivalent:
 ```java
 String url = "jdbc:mysql://localhost:3306/projetpi2";
 String user = "root";
-String password = "yourpassword";
+String password = "";
 ```
 
 ### 4. Run the application
